@@ -28,7 +28,10 @@ cd ~/.dotfiles
 Stow cannot overwrite existing files. Back up your current configuration before proceeding:
 
 ```bash
+# Creating dotfiles-backup in home directory
 mkdir -p ~/dotfiles-backup
+
+# Copying existing files to dotfiles-backup
 cp -r ~/.config/nvim ~/.config/kitty ~/.tmux.conf ~/.zshrc ~/dotfiles-backup/ 2>/dev/null
 ```
 
