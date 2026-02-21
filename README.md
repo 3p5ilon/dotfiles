@@ -23,7 +23,7 @@ git clone https://github.com/3p5ilon/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ```
 
-### 2. Backup Existing Configs
+### 2. Backup existing configs (if any)
 
 Stow cannot overwrite existing files. Back up your current configuration before proceeding:
 
@@ -41,7 +41,7 @@ Then remove the originals so Stow can create symlinks:
 rm -rf ~/.config/nvim ~/.config/kitty ~/.tmux.conf ~/.zshrc
 ```
 
-### 3. Install Packages
+### 3. Install packages
 
 Create symlinks for all packages:
 
