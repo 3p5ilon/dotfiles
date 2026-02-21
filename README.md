@@ -1,61 +1,56 @@
-# My Dotfiles
+# Dotfiles
 
-Personal development environment configuration files.
+My development configuration files managed with GNU Stow for easy deployment across machines.
 
-## Requirements
+## Prerequisites
 
-- **Git** (for cloning)
-  - macOS: `brew install git`
-  - Linux: `sudo apt install git`
+Ensure you have Git and GNU Stow installed:
 
-- **GNU Stow** (for symlink management)
-  - macOS: `brew install stow`
-  - Linux: `sudo apt install stow`
+```bash
+# macOS
+brew install git stow
 
-## Installation
+# Linux
+sudo apt install git stow
+```
 
-1. Clone the repo to your $HOME directory:
+## Setup
+
+### 1. Clone the repo to your home directory
 
 ```bash
 git clone https://github.com/3p5ilon/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ```
 
-2. ⚠️ Prepare Your System
+### 2. Backup Existing Configs
 
-Stow cannot overwrite existing files. You must delete or move any current configurations (Neovim, Tmux, Zsh, Kitty, Ghosty, etc.) from your home directory before stowing.
+Stow cannot overwrite existing files. Back up your current configuration before proceeding:
 
 ```bash
-# 1. Backup your current configs (recommended)
 mkdir -p ~/dotfiles-backup
-cp ~/.zshrc ~/.tmux.conf ~/dotfiles-backup/ 2>/dev/null
-cp -r ~/.config/nvim ~/.config/kitty ~/.config/ghosty ~/dotfiles-backup/ 2>/dev/null
-
-# 2. Remove originals so Stow can create the links (safe since you have backup)
-rm -rf ~/.config/nvim ~/.config/kitty ~/.config/ghosty ~/.tmux.conf ~/.zshrc
+cp -r ~/.config/nvim ~/.config/kitty ~/.tmux.conf ~/.zshrc ~/dotfiles-backup/ 2>/dev/null
 ```
 
-3. Create symlinks:
+Then remove the originals so Stow can create symlinks:
 
 ```bash
-# Stow all packages
+rm -rf ~/.config/nvim ~/.config/kitty ~/.tmux.conf ~/.zshrc
+```
+
+### 3. Install Packages
+
+Create symlinks for all packages:
+
+```bash
+# Install all packages
 stow -vt ~ */
 
-# Or install specific app
-stow -vt ~ nvim
-stow -vt ~ tmux
-stow -vt ~ zsh
-```
-## Troubleshooting
-
-**Conflict Error**: If you encounter "existing target is neither a link nor a directory," a file is blocking Stow. Remove the conflicting file and rerun stow:
-
-```bash
-rm -f ~/.filename
-stow -vt ~ package-name
+# Or install specific packages
+stow -vt ~ nvim tmux zsh
 ```
 
-**Remove Symlinks**: To unlink packages without deleting dotfiles:
+To remove symlinks for a package:
 
 ```bash
 stow -Dt ~ <package-name>
