@@ -14,30 +14,53 @@ Personal development environment configuration files.
 
 ## Installation
 
-1. Clone the repo to your home directory:
+1. Clone the repo to your $HOME directory:
 
 ```bash
 git clone https://github.com/3p5ilon/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ```
 
-2. ⚠️ **Important**: Stow will not create symlinks if files already exist. Back up or remove your existing configs:
+2. ⚠️ Prepare Your System
+
+Stow cannot overwrite existing files. You must delete or move any current configurations (Neovim, Tmux, Zsh, Kitty, Ghosty, etc.) from your home directory before stowing.
 
 ```bash
-# Backup your current configs (recommended)
+# 1. Backup your current configs (recommended)
 mkdir -p ~/dotfiles-backup
-cp ~/.zshrc ~/dotfiles-backup/ 2>/dev/null
-cp ~/.tmux.conf ~/dotfiles-backup/ 2>/dev/null
-cp -r ~/.config/nvim ~/dotfiles-backup/ 2>/dev/null
+cp ~/.zshrc ~/.tmux.conf ~/dotfiles-backup/ 2>/dev/null
+cp -r ~/.config/nvim ~/.config/kitty ~/.config/ghosty ~/dotfiles-backup/ 2>/dev/null
 
-# Remove existing files (safe since you have backup)
-rm -rf ~/.config/nvim ~/.tmux.conf ~/.zshrc
-
+# 2. Remove originals so Stow can create the links (safe since you have backup)
+rm -rf ~/.config/nvim ~/.config/kitty ~/.config/ghosty ~/.tmux.conf ~/.zshrc
 ```
 
 3. Create symlinks:
 
 ```bash
+# Stow all packages
 stow -vt ~ */
+
+# Or install specific app
+stow -vt ~ nvim
+stow -vt ~ tmux
+stow -vt ~ zsh
+```
+## Troubleshooting
+
+**Conflict Error**: If you encounter "existing target is neither a link nor a directory," a file is blocking Stow. Remove the conflicting file and rerun stow:
+
+```bash
+rm -f ~/.filename
+stow -vt ~ package-name
 ```
 
+**Remove Symlinks**: To unlink packages without deleting dotfiles:
+
+```bash
+stow -Dt ~ <package-name>
+```
+
+## License
+
+MIT
