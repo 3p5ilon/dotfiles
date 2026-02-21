@@ -1,0 +1,27 @@
+# OS files
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Editor backups
+*~
+*.backup
+
+# Local overrides 
+*.local
+*.local.*
+.local/
+
+# Private/Secrets
+.env
+*.key
+.secrets
+
+# Temporary files
+tmp/
+temp/
+.cache/
+
+# tmux plugins (they get installed separately)
+tmux/plugins/
