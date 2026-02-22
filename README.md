@@ -1,64 +1,111 @@
 # Dotfiles
 
-My development configuration files managed with GNU Stow for easy deployment across machines.
+My development configuration managed with GNU Stow for easy deployment across machines.
+
+> [!WARNING]
+> This repository will replace your existing configuration files.
+> A backup is created automatically during installation.
 
 ## Prerequisites
 
-Ensure you have Git and GNU Stow installed:
+Install the required tools:
 
 ```bash
 # macOS
-brew install git stow
+brew install git stow neovim tmux starship kitty ghostty
 
-# Linux
-sudo apt install git stow
+# Linux (Ubuntu/Debian)
+sudo apt install git stow neovim tmux
+# Starship: curl -sS https://starship.rs/install.sh | sh
+# Kitty: https://sw.kovidgoyal.net/kitty/
+# Ghostty: https://ghostty.org/download
 ```
 
-## Setup
-
-1. Clone the repo to your home directory
+## Quick Install
 
 ```bash
+# Clone the repository
 git clone https://github.com/3p5ilon/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
+
+# Run the installer
+./install.sh
 ```
 
-2. Backup existing configs (if any)
+The installer will:
 
-Stow cannot overwrite existing files. Back up your current configuration before proceeding:
+- Create a timestamped backup of your existing configs
+- Remove originals (safe - backup exists)
+- Create symlinks to your new configs
+
+## Manual Installation
+
+If you prefer to install manually:
 
 ```bash
-# Creating dotfiles-backup in home directory
+# Clone the repository
+git clone https://github.com/3p5ilon/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+
+# Backup existing configs
 mkdir -p ~/dotfiles-backup
+cp ~/.zshrc ~/.vimrc ~/.tmux.conf ~/.gitconfig ~/dotfiles-backup/ 2>/dev/null
+cp -r ~/.config/nvim ~/.config/kitty ~/.config/ghostty ~/dotfiles-backup/ 2>/dev/null
+cp ~/.config/starship.toml ~/dotfiles-backup/ 2>/dev/null
 
-# Copying existing files to dotfiles-backup
-cp -r ~/.config/nvim ~/.config/kitty ~/.tmux.conf ~/.zshrc ~/dotfiles-backup/ 2>/dev/null
-```
+# Remove originals
+rm -rf ~/.config/nvim ~/.config/kitty ~/.config/ghostty \
+       ~/.tmux.conf ~/.zshrc ~/.vimrc ~/.gitconfig \
+       ~/.config/starship.toml
 
-Then remove the originals so Stow can create symlinks:
-
-```bash
-rm -rf ~/.config/nvim ~/.config/kitty ~/.tmux.conf ~/.zshrc
-```
-
-3. Install packages
-
-Create symlinks for all packages:
-
-```bash
-# Install all packages
+# Create symlinks
 stow -vt ~ */
-
-# Or install specific packages
-stow -vt ~ nvim tmux zsh
 ```
 
-To remove symlinks for a package:
+## What's Included
+
+| Configuration | Location                  | Description                                             |
+| ------------- | ------------------------- | ------------------------------------------------------- |
+| Neovim        | `~/.config/nvim`          | Lua-based editor config with LSP, treesitter, telescope |
+| Vim           | `~/.vimrc`                | Basic Vim config with essential plugins                 |
+| Zsh           | `~/.zshrc`                | Shell aliases, history settings, and starship prompt    |
+| Tmux          | `~/.tmux.conf`            | Terminal multiplexer with vim-tmux-navigator            |
+| Git           | `~/.gitconfig`            | Global git aliases and settings                         |
+| Kitty         | `~/.config/kitty`         | Terminal emulator configuration (optional)              |
+| Ghostty       | `~/.config/ghostty`       | Terminal emulator configuration (optional)              |
+| Starship      | `~/.config/starship.toml` | Cross-shell prompt (optional)                           |
+
+## Post-Installation
+
+- **Neovim**: Open `nvim` – plugins will auto-install via lazy.nvim
+- **Tmux**: Start tmux and press `Ctrl-s + I` to install plugins
+- **Shell**: Restart your terminal or run `source ~/.zshrc`
+
+## Managing Configs
 
 ```bash
-stow -Dt ~ <package-name>
+# Install a specific package
+stow -vt ~ nvim
+
+# Remove symlinks for a package
+stow -Dvt ~ nvim
+
+# Preview what would be installed (dry run)
+stow -nvt ~ */
+```
+
+## Updating
+
+```bash
+cd ~/.dotfiles
+git pull
+./install.sh
 ```
 
 ## License
 
 MIT
+
+```
+
+```
