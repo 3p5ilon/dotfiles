@@ -3,7 +3,8 @@
 My development configuration managed with GNU Stow for easy deployment across machines.
 
 > [!WARNING]
-> This repository will replace your existing configuration files.
+> This repository will overwrite your existing configuration files and may affect your current environment.
+>
 > A backup is created automatically during installation.
 
 ## Prerequisites
@@ -64,15 +65,15 @@ stow -vt ~ */
 
 ## What's Included
 
-| Configuration | Location                  | Description                                             |
-| ------------- | ------------------------- | ------------------------------------------------------- |
-| Neovim        | `~/.config/nvim`          | Lua-based editor config with LSP, treesitter, telescope |
-| Vim           | `~/.vimrc`                | Basic Vim config with essential plugins                 |
-| Zsh           | `~/.zshrc`                | Shell aliases, history settings, and starship prompt    |
-| Tmux          | `~/.tmux.conf`            | Terminal multiplexer with vim-tmux-navigator            |
-| Kitty         | `~/.config/kitty`         | Terminal emulator configuration                         |
-| Ghostty       | `~/.config/ghostty`       | Terminal emulator configuration                         |
-| Starship      | `~/.config/starship.toml` | Cross-shell prompt                                      |
+| Configuration                                     | Location                  | Description                                             |
+| ------------------------------------------------- | ------------------------- | ------------------------------------------------------- |
+| [Neovim](https://github.com/neovim/neovim)        | `~/.config/nvim`          | Lua-based editor config with LSP, treesitter, telescope |
+| [Vim](https://github.com/vim/vim)                 | `~/.vimrc`                | Basic Vim config with essential plugins                 |
+| Zsh                                               | `~/.zshrc`                | Shell aliases, history settings, and starship prompt    |
+| [Tmux](https://github.com/tmux/tmux)              | `~/.tmux.conf`            | Terminal multiplexer with vim-tmux-navigator            |
+| [Kitty](https://github.com/kovidgoyal/kitty)      | `~/.config/kitty`         | Terminal emulator configuration                         |
+| [Ghostty](https://github.com/ghostty-org/ghostty) | `~/.config/ghostty`       | Terminal emulator configuration                         |
+| [Starship](https://github.com/starship/starship)  | `~/.config/starship.toml` | Cross-shell prompt                                      |
 
 ## Post-Installation
 
