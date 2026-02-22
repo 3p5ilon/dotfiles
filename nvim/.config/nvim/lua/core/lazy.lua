@@ -19,8 +19,9 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 -- Load all core configurations
-require("core.options")
 require("core.autocmds")
+require("core.keymaps")
+require("core.options")
 
 -- Lazy plugin manager setup
 require("lazy").setup({
