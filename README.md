@@ -43,7 +43,7 @@ The installer will:
 If you prefer to install manually:
 
 ```bash
-# Clone the repository
+# Clone the repo to your home directory
 git clone https://github.com/3p5ilon/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 
@@ -70,10 +70,9 @@ stow -vt ~ */
 | Vim           | `~/.vimrc`                | Basic Vim config with essential plugins                 |
 | Zsh           | `~/.zshrc`                | Shell aliases, history settings, and starship prompt    |
 | Tmux          | `~/.tmux.conf`            | Terminal multiplexer with vim-tmux-navigator            |
-| Git           | `~/.gitconfig`            | Global git aliases and settings                         |
-| Kitty         | `~/.config/kitty`         | Terminal emulator configuration (optional)              |
-| Ghostty       | `~/.config/ghostty`       | Terminal emulator configuration (optional)              |
-| Starship      | `~/.config/starship.toml` | Cross-shell prompt (optional)                           |
+| Kitty         | `~/.config/kitty`         | Terminal emulator configuration                         |
+| Ghostty       | `~/.config/ghostty`       | Terminal emulator configuration                         |
+| Starship      | `~/.config/starship.toml` | Cross-shell prompt                                      |
 
 ## Post-Installation
 
@@ -90,8 +89,10 @@ stow -vt ~ nvim
 # Remove symlinks for a package
 stow -Dvt ~ nvim
 
-# Preview what would be installed (dry run)
-stow -nvt ~ */
+# Verify symlinks
+ls -la .
+# or a specific package
+ls -la ~/.vimrc
 ```
 
 ## Updating
@@ -99,13 +100,10 @@ stow -nvt ~ */
 ```bash
 cd ~/.dotfiles
 git pull
+# Refresh symlinks to point to updated files
 ./install.sh
 ```
 
 ## License
 
 MIT
-
-```
-
-```
