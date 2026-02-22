@@ -93,15 +93,7 @@ stow -Dvt ~ nvim
 ls -la .
 # or a specific package
 ls -la ~/.vimrc
-```
-
-## Updating
-
-```bash
-cd ~/.dotfiles
-git pull
-# Refresh symlinks to point to updated files
-./install.sh
+# Expected output: ~/.vimrc -> ~/.dotfiles/vimrc/.vimrc
 ```
 
 ## License
