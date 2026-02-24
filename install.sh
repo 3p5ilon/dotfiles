@@ -61,6 +61,14 @@ echo "Creating symlinks..."
 cd "$HOME/.dotfiles"
 stow -vt "$HOME" */
 
+# Install Tmux Plugin Manager (TPM) if missing
+if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+    echo "Installing Tmux Plugin Manager..."
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+else
+    echo "TPM already installed."
+fi
+
 # Done
 echo "Dotfiles installation complete!"
 echo "Backup saved at: $BACKUP_DIR"
