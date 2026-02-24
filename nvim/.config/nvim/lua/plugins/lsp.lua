@@ -5,46 +5,85 @@ return {
 		build = ":MasonUpdate",
 		config = true,
 	},
+
+	-- Mason-lspconfig: Bridge between Mason and lspconfig
 	{
 		"williamboman/mason-lspconfig.nvim",
 		dependencies = {
 			"williamboman/mason.nvim",
 			"neovim/nvim-lspconfig",
-			"hrsh7th/cmp-nvim-lsp", -- LSP completion capabilities
+			"hrsh7th/cmp-nvim-lsp",
 		},
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 			require("mason-lspconfig").setup({
 				ensure_installed = {
-					"lua_ls",
-					"rust_analyzer",
-					"ts_ls",
-					"pylsp",
+					"pyright", -- Py
+					"clangd", -- C/C++
+					"ts_ls", -- JS/Ts
+					"eslint",
+					"lua_ls", -- Lua
+					"marksman", -- Md
 				},
 				automatic_installation = true,
 				handlers = {
 					function(server_name)
-						require("lspconfig")[server_name].setup({
-							capabilities = capabilities,
-						})
-					end,
-					-- Custom config for lua_ls (Neovim-specific)
-					lua_ls = function()
-						require("lspconfig").lua_ls.setup({
-							capabilities = capabilities,
-							settings = {
-								Lua = {
-									runtime = { version = "LuaJIT" },
-									diagnostics = { globals = { "vim" } }, -- Recognize vim global
-									workspace = {
-										library = vim.api.nvim_get_runtime_file("", true),
-										checkThirdParty = false,
-									},
-									telemetry = { enable = false },
+						-- C/C++ with clangd
+						if server_name == "clangd" then
+							require("lspconfig").clangd.setup({
+								capabilities = capabilities,
+								cmd = {
+									"clangd",
+									"--background-index",
+									"--clang-tidy",
+									"--header-insertion=iwyu",
+									"--completion-style=detailed",
+									"--function-arg-placeholders",
 								},
-							},
-						})
+								init_options = {
+									usePlaceholders = true,
+									completeUnimported = true,
+									clangdFileStatus = true,
+								},
+							})
+						-- Python with pyright
+						elseif server_name == "pyright" then
+							require("lspconfig").pyright.setup({
+								capabilities = capabilities,
+								settings = {
+									python = {
+										analysis = {
+											typeCheckingMode = "basic",
+											autoSearchPaths = true,
+											useLibraryCodeForTypes = true,
+											diagnosticMode = "workspace",
+										},
+									},
+								},
+							})
+						-- Lua with lua_ls
+						elseif server_name == "lua_ls" then
+							require("lspconfig").lua_ls.setup({
+								capabilities = capabilities,
+								settings = {
+									Lua = {
+										runtime = { version = "LuaJIT" },
+										diagnostics = { globals = { "vim" } },
+										workspace = {
+											library = vim.api.nvim_get_runtime_file("", true),
+											checkThirdParty = false,
+										},
+										telemetry = { enable = false },
+									},
+								},
+							})
+						-- Default handler for all other servers
+						else
+							require("lspconfig")[server_name].setup({
+								capabilities = capabilities,
+							})
+						end
 					end,
 				},
 			})
@@ -64,7 +103,7 @@ return {
 				end,
 			})
 
-			-- Diagnostics on hover
+			-- Show diagnostics on hover
 			vim.api.nvim_create_autocmd("CursorHold", {
 				callback = function()
 					vim.diagnostic.open_float(nil, { focusable = false })
