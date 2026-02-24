@@ -5,7 +5,7 @@ vim.g.maplocalleader = " "
 local map = vim.keymap.set
 
 -- Tabs
-map("n", "<Leader>tn", "<cmd>tabnew<CR>")
+map("n", "<Leader>t", "<cmd>tabnew<CR>")
 map("n", "<F1>", "<cmd>tabprev<CR>")
 map("n", "<F2>", "<cmd>tabnext<CR>")
 
@@ -50,3 +50,70 @@ map("x", "<Leader>p", '"_dP')
 
 -- Terminal
 map("t", "<Esc><Esc>", "<C-\\><C-n>")
+
+-- ===============================
+-- Competitive Programming Keymaps
+-- ===============================
+
+local function cp_map(mode, lhs, cmd, desc)
+	vim.keymap.set(mode, lhs, function()
+		vim.cmd("w")
+		vim.cmd("cd %:p:h")
+		vim.cmd(cmd)
+	end, { buffer = true, desc = desc })
+end
+
+-- C++ keymaps
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "cpp",
+	callback = function()
+		-- F8 → Clang sanitizer + input
+		cp_map(
+			{ "n", "i" },
+			"<F8>",
+			'!clang++ -std=c++17 -Wall -Wextra -Wshadow -fsanitize=address -DONPC -O2 "%" -o "%<" && "./%<" < inp',
+			"CP: Clang Sanitize"
+		)
+
+		-- F9 → GCC warnings (no input)
+		cp_map(
+			{ "n", "i" },
+			"<F9>",
+			'!g++ -std=c++17 -Wall -Wextra -Wshadow -DONPC -O2 "%" -o "%<" && "./%<"',
+			"CP: GCC Warnings"
+		)
+
+		-- F10 → GCC warnings + input
+		cp_map(
+			{ "n", "i" },
+			"<F10>",
+			'!g++ -std=c++17 -Wall -Wextra -Wshadow -DONPC -O2 "%" -o "%<" && "./%<" < inp',
+			"CP: GCC Warnings + Input"
+		)
+	end,
+})
+
+-- F7 → GCC fast compile (no input)
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "cpp",
+	callback = function()
+		vim.keymap.set({ "n", "i" }, "<F7>", function()
+			vim.cmd("w")
+			vim.cmd("cd %:p:h")
+			vim.cmd("split")
+			vim.cmd("terminal g++ -std=c++17 -DONPC -O2 % -o %< && ./%<")
+			vim.cmd("startinsert")
+		end, { buffer = true, desc = "CP: GCC Fast" })
+	end,
+})
+
+-- Python keymap
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "python",
+	callback = function()
+		vim.keymap.set({ "n", "i" }, "<F6>", function()
+			vim.cmd("w")
+			vim.cmd("!python3 %")
+		end, { buffer = true, desc = "Run Python" })
+	end,
+})
