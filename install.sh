@@ -5,7 +5,7 @@ set -e  # Exit immediately if any command fails
 
 echo "Setting up dotfiles..."
 
-# Check if GNU Stow is installed
+# Dependency checks - verify that required tools are installed
 if ! command -v stow &> /dev/null; then
     echo "Error: GNU Stow is required but not installed."
     echo "Install it with:"
@@ -13,6 +13,17 @@ if ! command -v stow &> /dev/null; then
     echo "  Linux: sudo apt install stow"
     exit 1
 fi
+
+warn_missing() {
+    if ! command -v "$1" &> /dev/null; then
+        echo "Warning: '$1' not found — install it before opening Neovim"
+    fi
+}
+
+warn_missing "nvim"
+warn_missing "git"
+warn_missing "tmux"
+warn_missing "starship"
 
 # Create backup directory with timestamp
 # This ensures multiple runs don't overwrite each other's backups
@@ -50,6 +61,7 @@ echo "Creating symlinks..."
 cd "$HOME/.dotfiles"
 stow -vt "$HOME" */
 
+# Done
 echo "Dotfiles installation complete!"
 echo "Backup saved at: $BACKUP_DIR"
 echo ""
