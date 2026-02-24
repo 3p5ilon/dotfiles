@@ -35,9 +35,9 @@ cd ~/.dotfiles
 
 The installer will:
 
-- Create a timestamped backup of your existing configs
-- Remove originals (safe - backup exists)
-- Create symlinks to your new configs
+- Create a timestamped backup of your existing configs.
+- Remove originals and create symlinks using GNU Stow.
+- Automatically clone [TPM](https://github.com/tmux-plugins/tpm) (Tmux Plugin Manager).
 
 ## Manual Installation
 
@@ -61,6 +61,9 @@ rm -rf ~/.config/nvim ~/.config/kitty ~/.config/ghostty \
 
 # Create symlinks
 stow -vt ~ */
+
+# Install TPM (plugin manager):
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
 ## What's Included
