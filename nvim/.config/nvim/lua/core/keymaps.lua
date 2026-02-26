@@ -67,29 +67,29 @@ end
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "c", "cpp" },
 	callback = function()
-		-- F9 → Clang sanitizer + input
+		-- F7 → Clang sanitizer + input
 		cp_map(
 			{ "n", "i" },
-			"<F9>",
+			"<F7>",
 			'!clang++ -std=c++17 -Wall -Wextra -Wshadow -fsanitize=address -DONPC -O2 "%" -o "%<" && "./%<" < inp',
 			"CP: Clang Sanitize"
 		)
 
-		-- F10 → GCC warnings + input
+		-- F8 → GCC warnings + input
 		cp_map(
 			{ "n", "i" },
-			"<F10>",
+			"<F8>",
 			'!g++ -std=c++17 -Wall -Wextra -Wshadow -DONPC -O2 "%" -o "%<" && "./%<" < inp',
 			"CP: GCC Warnings + Input"
 		)
 	end,
 })
 
--- F8 → GCC fast compile (no input)
+-- F6 → GCC fast compile (no input)
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "c", "cpp" },
 	callback = function()
-		vim.keymap.set({ "n", "i" }, "<F8>", function()
+		vim.keymap.set({ "n", "i" }, "<F6>", function()
 			vim.cmd("w")
 			vim.cmd("cd %:p:h")
 			vim.cmd("split")
@@ -103,7 +103,7 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "python",
 	callback = function()
-		vim.keymap.set({ "n", "i" }, "<F10>", function()
+		vim.keymap.set({ "n", "i" }, "<F8>", function()
 			vim.cmd("w")
 			vim.cmd("!python3 %")
 		end, { buffer = true, desc = "Run Python" })
