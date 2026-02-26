@@ -1,10 +1,13 @@
+-- Debug adapter configurations for Python, JavaScript/TypeScript, and C/C++
+-- Install adapters: :MasonInstall debugpy js-debug-adapter codelldb
+
 return {
 	{
 		"mfussenegger/nvim-dap",
 		config = function()
 			local dap = require("dap")
 
-			-- ==================== PYTHON ====================
+			-- Python debugging (debugpy)
 			local debugpy_path = vim.fn.expand("~/.local/share/nvim/mason/packages/debugpy/venv/bin/python")
 
 			dap.adapters.python = {
@@ -31,7 +34,7 @@ return {
 				},
 			}
 
-			-- ==================== TYPESCRIPT/JAVASCRIPT ====================
+			-- JavaScript/TypeScript debugging (js-debug-adapter)
 			local js_debug_path =
 				vim.fn.expand("~/.local/share/nvim/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js")
 
@@ -68,6 +71,67 @@ return {
 			dap.configurations.javascript = ts_config
 			dap.configurations.typescriptreact = ts_config
 			dap.configurations.javascriptreact = ts_config
+
+			-- C/C++ debugging (codelldb — requires gcc on system, no llvm needed)
+			local codelldb_path =
+				vim.fn.expand("~/.local/share/nvim/mason/packages/codelldb/extension/adapter/codelldb")
+
+			dap.adapters.codelldb = {
+				type = "server",
+				port = "${port}",
+				executable = {
+					command = codelldb_path,
+					args = { "--port", "${port}" },
+				},
+			}
+
+			dap.configurations.cpp = {
+				{
+					name = "Launch file",
+					type = "codelldb",
+					request = "launch",
+					-- auto compile with debug symbols before launching
+					program = function()
+						local file = vim.fn.expand("%:p")
+						local out = vim.fn.expand("%:p:r")
+						local result = vim.fn.system("g++ -g -O0 -Wall -std=c++17 " .. file .. " -o " .. out)
+						if vim.v.shell_error ~= 0 then
+							vim.notify("Compile error:\n" .. result, vim.log.levels.ERROR)
+							return nil
+						end
+						return out
+					end,
+					cwd = "${workspaceFolder}",
+					stopOnEntry = false,
+					terminal = "integrated", -- keeps stdin working for interactive programs
+				},
+				{
+					name = "Launch with args",
+					type = "codelldb",
+					request = "launch",
+					-- useful when your program needs command line arguments
+					program = function()
+						local file = vim.fn.expand("%:p")
+						local out = vim.fn.expand("%:p:r")
+						local result = vim.fn.system("g++ -g -O0 -Wall -std=c++17 " .. file .. " -o " .. out)
+						if vim.v.shell_error ~= 0 then
+							vim.notify("Compile error:\n" .. result, vim.log.levels.ERROR)
+							return nil
+						end
+						return out
+					end,
+					args = function()
+						local args = vim.fn.input("Arguments: ")
+						return vim.split(args, " ")
+					end,
+					cwd = "${workspaceFolder}",
+					stopOnEntry = false,
+					terminal = "integrated",
+				},
+			}
+
+			-- C uses same config as C++
+			dap.configurations.c = dap.configurations.cpp
 		end,
 	},
 }
