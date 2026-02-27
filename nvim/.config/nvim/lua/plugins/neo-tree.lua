@@ -17,7 +17,7 @@ return {
 			enable_diagnostics = true, -- Show LSP diagnostics
 			window = {
 				position = "left",
-				width = 33,
+				width = 32,
 				mappings = {
 					["<space>"] = "toggle_node",
 					["<cr>"] = "open",
