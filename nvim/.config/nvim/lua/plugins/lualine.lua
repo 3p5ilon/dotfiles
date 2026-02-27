@@ -5,20 +5,20 @@ return {
 			"nvim-tree/nvim-web-devicons",
 		},
 		config = function()
-			local lualine = require("lualine")
-			local colors = require("catppuccin.palettes").get_palette()
-			lualine.setup({
+			require("lualine").setup({
 				options = {
 					theme = "catppuccin",
 					globalstatus = true,
 					icons_enabled = true,
-					component_separators = "",
-					-- component_separators = { left = "", right = "" },
+
+					component_separators = { left = "", right = "" },
 					section_separators = { left = "", right = "" },
+
 					disabled_filetypes = {
 						statusline = { "dashboard", "alpha" },
 					},
 				},
+
 				sections = {
 					lualine_a = {
 						{
@@ -27,34 +27,28 @@ return {
 							right_padding = 2,
 						},
 					},
+
 					lualine_b = {
-						{
-							"branch",
-							icon = "",
-							separator = { left = "", right = "" },
-						},
-					},
-					lualine_c = {
+						{ "branch", icon = "" },
+
 						{
 							"diff",
-							colored = true,
-							diff_color = {
-								added = { fg = colors.green, bg = "none" },
-								modified = { fg = colors.yellow, bg = "none" },
-								removed = { fg = colors.red, bg = "none" },
-							},
 							symbols = {
 								added = "+",
 								modified = "~",
 								removed = "-",
 							},
 						},
+					},
+
+					lualine_c = {
 						{
 							"filename",
 							file_status = true,
-							path = 1,
+							path = 0,
 						},
 					},
+
 					lualine_x = {
 						{
 							"diagnostics",
@@ -69,7 +63,9 @@ return {
 						"fileformat",
 						"filetype",
 					},
+
 					lualine_y = { "progress" },
+
 					lualine_z = {
 						{
 							"location",
@@ -78,6 +74,7 @@ return {
 						},
 					},
 				},
+
 				extensions = { "neo-tree", "lazy" },
 			})
 		end,
