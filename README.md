@@ -13,14 +13,17 @@ Install the required tools:
 
 ```bash
 # macOS
-brew install git stow neovim tmux starship kitty ghostty
+brew install git stow neovim tmux starship kitty node python3 gcc make ripgrep
 
 # Linux (Ubuntu/Debian)
-sudo apt install git stow neovim tmux
+sudo apt install git stow neovim tmux nodejs python3 gcc make ripgrep
 # Starship: curl -sS https://starship.rs/install.sh | sh
 # Kitty: https://sw.kovidgoyal.net/kitty/
 # Ghostty: https://ghostty.org/download
 ```
+
+> [!NOTE]
+> `node`, `python3`, `gcc`, `make`, and `ripgrep` are required for Neovim LSP servers, DAP adapters, and Telescope to work correctly.
 
 ## Quick Install
 
@@ -35,16 +38,15 @@ cd ~/.dotfiles
 
 The installer will:
 
-- Create a timestamped backup of your existing configs.
-- Remove originals and create symlinks using GNU Stow.
-- Automatically clone [TPM](https://github.com/tmux-plugins/tpm) (Tmux Plugin Manager).
+- Warn about any missing dependencies
+- Create a timestamped backup of your existing configs
+- Remove originals and create symlinks using GNU Stow
+- Automatically clone and install [TPM](https://github.com/tmux-plugins/tpm) and tmux plugins
 
 ## Manual Installation
 
-If you prefer to install manually:
-
 ```bash
-# Clone the repo to your home directory
+# Clone the repo
 git clone https://github.com/3p5ilon/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 
@@ -62,26 +64,27 @@ rm -rf ~/.config/nvim ~/.config/kitty ~/.config/ghostty \
 # Create symlinks
 stow -vt ~ */
 
-# Install TPM (plugin manager):
+# Install TPM and plugins
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+~/.tmux/plugins/tpm/bin/install_plugins
 ```
 
 ## What's Included
 
-| Configuration                                     | Location                  | Description                                             |
-| ------------------------------------------------- | ------------------------- | ------------------------------------------------------- |
-| [Neovim](https://github.com/neovim/neovim)        | `~/.config/nvim`          | Lua-based editor config with LSP, treesitter, telescope |
-| [Vim](https://github.com/vim/vim)                 | `~/.vimrc`                | Basic Vim config with essential plugins                 |
-| Zsh                                               | `~/.zshrc`                | Shell aliases, history settings, and starship prompt    |
-| [Tmux](https://github.com/tmux/tmux)              | `~/.tmux.conf`            | Terminal multiplexer with vim-tmux-navigator            |
-| [Kitty](https://github.com/kovidgoyal/kitty)      | `~/.config/kitty`         | Terminal emulator configuration                         |
-| [Ghostty](https://github.com/ghostty-org/ghostty) | `~/.config/ghostty`       | Terminal emulator configuration                         |
-| [Starship](https://github.com/starship/starship)  | `~/.config/starship.toml` | Cross-shell prompt                                      |
+| Configuration                                     | Location                  | Description                                           |
+| ------------------------------------------------- | ------------------------- | ----------------------------------------------------- |
+| [Neovim](https://github.com/neovim/neovim)        | `~/.config/nvim`          | Lua-based config with LSP, treesitter, telescope, DAP |
+| [Vim](https://github.com/vim/vim)                 | `~/.vimrc`                | Basic Vim config with essential plugins               |
+| Zsh                                               | `~/.zshrc`                | Shell aliases, history settings, and starship prompt  |
+| [Tmux](https://github.com/tmux/tmux)              | `~/.tmux.conf`            | Terminal multiplexer with catppuccin theme            |
+| [Kitty](https://github.com/kovidgoyal/kitty)      | `~/.config/kitty`         | Terminal emulator configuration                       |
+| [Ghostty](https://github.com/ghostty-org/ghostty) | `~/.config/ghostty`       | Terminal emulator configuration                       |
+| [Starship](https://github.com/starship/starship)  | `~/.config/starship.toml` | Cross-shell prompt                                    |
 
 ## Post-Installation
 
-- **Neovim**: Open `nvim` – plugins will auto-install via lazy.nvim
-- **Tmux**: Start tmux and press `Ctrl-s + I` to install plugins
+- **Neovim**: Open `nvim` — plugins will auto-install via lazy.nvim, then wait for Mason to finish installing LSP servers
+- **Tmux**: Plugins are installed automatically — if something is missing, press `Ctrl-s + I` inside tmux
 - **Shell**: Restart your terminal or run `source ~/.zshrc`
 
 ## Managing Configs
@@ -94,10 +97,8 @@ stow -vt ~ nvim
 stow -Dvt ~ nvim
 
 # Verify symlinks
-ls -la .
-# or a specific package
-ls -la ~/.vimrc
-# Expected output: ~/.vimrc -> ~/.dotfiles/vimrc/.vimrc
+ls -la ~/.config/nvim
+# Expected: ~/.config/nvim -> ~/.dotfiles/nvim/.config/nvim
 ```
 
 ## License
