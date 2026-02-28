@@ -1,8 +1,6 @@
 #!/bin/bash
 # Dotfiles installer - creates symlinks and backs up existing configs
-
 set -e  # Exit immediately if any command fails
-
 echo "Setting up dotfiles..."
 
 # Dependency checks - verify that required tools are installed
@@ -20,20 +18,23 @@ warn_missing() {
     fi
 }
 
+# Core tools
 warn_missing "nvim"
 warn_missing "git"
 warn_missing "tmux"
 warn_missing "starship"
+# Neovim dependencies
+warn_missing "node"     # required for ts_ls, eslint, marksman LSP servers
+warn_missing "python3"  # required for pyright LSP and debugpy DAP
+warn_missing "make"     # required for telescope-fzf-native
+warn_missing "rg"       # ripgrep — required for telescope live_grep
+warn_missing "gcc"      # required for C/C++ compilation and clangd
 
 # Create backup directory with timestamp
-# This ensures multiple runs don't overwrite each other's backups
-# Format: ~/dotfiles-backup-YYYYMMDD-HHMMSS/
 BACKUP_DIR="$HOME/dotfiles-backup-$(date +%Y%m%d-%H%M%S)"
 mkdir -p "$BACKUP_DIR"
 echo "Creating backup at: $BACKUP_DIR"
 
-# Backup existing configuration files (only if they exist)
-# The [ -f ] and [ -d ] checks prevent errors if files don't exist
 echo "Backing up current configs..."
 [ -f "$HOME/.zshrc" ] && cp "$HOME/.zshrc" "$BACKUP_DIR/"
 [ -f "$HOME/.vimrc" ] && cp "$HOME/.vimrc" "$BACKUP_DIR/"
@@ -44,8 +45,6 @@ echo "Backing up current configs..."
 [ -d "$HOME/.config/kitty" ] && cp -r "$HOME/.config/kitty" "$BACKUP_DIR/"
 [ -d "$HOME/.config/ghostty" ] && cp -r "$HOME/.config/ghostty" "$BACKUP_DIR/"
 
-# Remove existing configs so stow can create symlinks
-# rm -rf is safe - it won't error if files don't exist
 echo "Removing existing configs..."
 rm -rf "$HOME/.config/nvim" \
        "$HOME/.config/kitty" \
@@ -56,7 +55,6 @@ rm -rf "$HOME/.config/nvim" \
        "$HOME/.gitconfig" \
        "$HOME/.config/starship.toml"
 
-# Create symlinks using stow
 echo "Creating symlinks..."
 cd "$HOME/.dotfiles"
 stow -vt "$HOME" */
@@ -69,11 +67,15 @@ else
     echo "TPM already installed."
 fi
 
-# Done
+# Auto install tmux plugins
+echo "Installing tmux plugins..."
+~/.tmux/plugins/tpm/bin/install_plugins
+
+echo ""
 echo "Dotfiles installation complete!"
 echo "Backup saved at: $BACKUP_DIR"
 echo ""
 echo "Next steps:"
 echo "  1. Restart your terminal or run: source ~/.zshrc"
-echo "  2. Open Neovim - plugins will install automatically"
-echo "  3. Start tmux and press 'Ctrl-s + I' to install plugins"
+echo "  2. Open Neovim — plugins and LSP servers will install automatically"
+echo "  3. Wait for Mason to finish installing LSP servers"
