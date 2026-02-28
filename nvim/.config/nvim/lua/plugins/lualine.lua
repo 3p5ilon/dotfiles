@@ -4,16 +4,38 @@ return {
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",
 		},
+
 		config = function()
+			local style = "rounded" -- "sharp" | "rounded"
+
+			local separator_styles = {
+				rounded = {
+					component = { left = "", right = "" },
+					section = { left = "", right = "" },
+					edge_left = "",
+					edge_right = "",
+					-- padding_a = { left = 1, right = 1 },
+					-- padding_z = { left = 1, right = 1 },
+				},
+				sharp = {
+					component = { left = "", right = "" },
+					section = { left = "", right = "" },
+					edge_left = nil,
+					edge_right = nil,
+					padding_a = { left = 2, right = 1 },
+					padding_z = { left = 1, right = 2 },
+				},
+			}
+
+			local s = separator_styles[style]
+
 			require("lualine").setup({
 				options = {
 					theme = "catppuccin",
 					globalstatus = true,
 					icons_enabled = true,
-
-					component_separators = { left = "", right = "" },
-					section_separators = { left = "", right = "" },
-
+					component_separators = s.component,
+					section_separators = s.section,
 					disabled_filetypes = {
 						statusline = { "dashboard", "alpha" },
 					},
@@ -23,41 +45,25 @@ return {
 					lualine_a = {
 						{
 							"mode",
-							separator = { left = "", right = "" },
-							right_padding = 2,
+							separator = style == "rounded" and { left = s.edge_left, right = s.edge_right } or nil,
+							padding = s.padding_a,
 						},
 					},
 
 					lualine_b = {
 						{ "branch", icon = "" },
-
-						{
-							"diff",
-							symbols = {
-								added = "+",
-								modified = "~",
-								removed = "-",
-							},
-						},
+						{ "diff", symbols = { added = "+", modified = "~", removed = "-" } },
 					},
 
 					lualine_c = {
-						{
-							"filename",
-							file_status = true,
-							path = 0,
-						},
+						{ "filename", file_status = true, path = 0 },
 					},
 
 					lualine_x = {
 						{
 							"diagnostics",
 							sources = { "nvim_diagnostic" },
-							symbols = {
-								error = " ",
-								warn = " ",
-								info = " ",
-							},
+							symbols = { error = " ", warn = " ", info = " " },
 						},
 						"encoding",
 						"fileformat",
@@ -69,8 +75,8 @@ return {
 					lualine_z = {
 						{
 							"location",
-							separator = { left = "", right = "" },
-							left_padding = 2,
+							separator = style == "rounded" and { left = s.edge_left, right = s.edge_right } or nil,
+							padding = s.padding_z,
 						},
 					},
 				},
