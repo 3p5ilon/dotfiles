@@ -1,41 +1,32 @@
 -- Set Leader
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-
 local map = vim.keymap.set
 
--- Tabs
-map("n", "<Leader>t", "<cmd>tabnew<CR>")
-map("n", "<F1>", "<cmd>tabprev<CR>")
-map("n", "<F2>", "<cmd>tabnext<CR>")
+-- Window splits
+map("n", "<leader>sv", "<cmd>vs<CR>") -- split vertical
+map("n", "<leader>sh", "<cmd>sp<CR>") -- split horizontal
+map("n", "<leader>sx", "<cmd>close<CR>") -- close current split
 
--- Window Splits
-map("n", "<Leader>v", "<cmd>vs<CR>")
-map("n", "<Leader>h", "<C-w>h")
-map("n", "<Leader>j", "<C-w>j")
-map("n", "<Leader>k", "<C-w>k")
-map("n", "<Leader>l", "<C-w>l")
-
--- Buffers Navigation
-map("n", "<Tab>", "<cmd>bnext<CR>")
-map("n", "<S-Tab>", "<cmd>bprevious<CR>")
-map("n", "<Leader>bd", "<cmd>bdelete<CR>")
+-- Navigate splits
+map("n", "<C-h>", "<C-w>h")
+map("n", "<C-j>", "<C-w>j")
+map("n", "<C-k>", "<C-w>k")
+map("n", "<C-l>", "<C-w>l")
 
 -- File operations
-map("n", "<Leader>w", "<cmd>w<CR>")
-map("n", "<Leader>q", "<cmd>q<CR>")
-map("n", "<Leader>e", "<cmd>Ex<CR>")
-map("n", "<Leader>s", "<cmd>source $MYVIMRC<CR>")
+map("n", "<Leader>w", "<cmd>w<CR>") -- save
+map("n", "<Leader>q", "<cmd>q<CR>") -- quit
 
 -- Search & Clear
-map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear highlights" })
-map("n", "n", "nzzzv", { desc = "Center search next" })
-map("n", "N", "Nzzzv", { desc = "Center search prev" })
+map("n", "<Esc>", "<cmd>nohlsearch<CR>")
+map("n", "n", "nzzzv") -- center search next
+map("n", "N", "Nzzzv") -- center search prev
 
 -- Visual Selection & Indent
-map("n", "<Leader>a", "ggVG", { desc = "Select all" })
-map("v", "<", "<gv", { desc = "Indent left" })
-map("v", ">", ">gv", { desc = "Indent right" })
+map("n", "<Leader>a", "ggVG") -- select all
+map("v", "<", "<gv") -- indent left
+map("v", ">", ">gv") -- indent right
 
 -- Move lines (Alt + j/k)
 map("n", "<A-j>", "<cmd>m .+1<CR>==")
@@ -44,12 +35,12 @@ map("v", "<A-j>", ":m '>+1<CR>gv=gv")
 map("v", "<A-k>", ":m '<-2<CR>gv=gv")
 
 -- Clipboard
-map("v", "<Leader>y", '"+y')
-map("n", "<Leader>p", '"+p')
-map("x", "<Leader>p", '"_dP')
+map("v", "<Leader>y", '"+y') -- copy to system clipboard
+map("n", "<Leader>p", '"+p') -- paste from system clipboard
+map("x", "<Leader>p", '"_dP') -- paste without overwriting clipboard
 
 -- Terminal
-map("t", "<Esc><Esc>", "<C-\\><C-n>")
+map("t", "<Esc><Esc>", "<C-\\><C-n>") -- exit terminal mode
 
 -- ===============================
 -- Competitive Programming Keymaps
