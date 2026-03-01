@@ -1,12 +1,15 @@
 return {
-	-- Mason: LSP server installer
+	-- LSP configuration using neovim 0.11+ vim.lsp.config API
+	-- Mason auto-installs all servers on first open
+
+	-- Mason (installer only)
 	{
 		"williamboman/mason.nvim",
 		build = ":MasonUpdate",
 		config = true,
 	},
 
-	-- Mason-lspconfig: Bridge between Mason and lspconfig
+	-- Mason LSP Bridge
 	{
 		"williamboman/mason-lspconfig.nvim",
 		dependencies = {
@@ -17,82 +20,90 @@ return {
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+			-- Lua
+			vim.lsp.config("lua_ls", {
+				capabilities = capabilities,
+				settings = {
+					Lua = {
+						runtime = { version = "LuaJIT" },
+						diagnostics = { globals = { "vim" } },
+						workspace = {
+							checkThirdParty = false,
+							library = vim.api.nvim_get_runtime_file("", true),
+						},
+						telemetry = { enable = false },
+					},
+				},
+			})
+
+			-- Python
+			vim.lsp.config("pyright", {
+				capabilities = capabilities,
+				settings = {
+					python = {
+						analysis = {
+							typeCheckingMode = "basic",
+							autoSearchPaths = true,
+							useLibraryCodeForTypes = true,
+							diagnosticMode = "workspace",
+						},
+					},
+				},
+			})
+
+			-- C/C++
+			vim.lsp.config("clangd", {
+				capabilities = vim.tbl_deep_extend("force", capabilities, {
+					offsetEncoding = { "utf-16" }, -- clangd requires utf-16
+				}),
+				cmd = {
+					"clangd",
+					"--background-index",
+					"--clang-tidy",
+					"--header-insertion=iwyu",
+					"--completion-style=detailed",
+					"--function-arg-placeholders",
+				},
+				init_options = {
+					usePlaceholders = true,
+					completeUnimported = true,
+					clangdFileStatus = true,
+				},
+			})
+
+			-- TypeScript/JavaScript
+			vim.lsp.config("ts_ls", {
+				capabilities = capabilities,
+			})
+
+			-- ESLint
+			vim.lsp.config("eslint", {
+				capabilities = capabilities,
+			})
+
+			-- Markdown
+			vim.lsp.config("marksman", {
+				capabilities = capabilities,
+			})
+
+			-- Mason setup
 			require("mason-lspconfig").setup({
 				ensure_installed = {
-					"pyright", -- Py
-					"clangd", -- C/C++
-					"ts_ls", -- JS/Ts
+					"lua_ls",
+					"pyright",
+					"clangd",
+					"ts_ls",
 					"eslint",
-					"lua_ls", -- Lua
-					"marksman", -- Md
+					"marksman",
 				},
 				automatic_installation = true,
-				handlers = {
-					function(server_name)
-						-- C/C++ with clangd
-						if server_name == "clangd" then
-							require("lspconfig").clangd.setup({
-								capabilities = capabilities,
-								cmd = {
-									"clangd",
-									"--background-index",
-									"--clang-tidy",
-									"--header-insertion=iwyu",
-									"--completion-style=detailed",
-									"--function-arg-placeholders",
-								},
-								init_options = {
-									usePlaceholders = true,
-									completeUnimported = true,
-									clangdFileStatus = true,
-								},
-							})
-						-- Python with pyright
-						elseif server_name == "pyright" then
-							require("lspconfig").pyright.setup({
-								capabilities = capabilities,
-								settings = {
-									python = {
-										analysis = {
-											typeCheckingMode = "basic",
-											autoSearchPaths = true,
-											useLibraryCodeForTypes = true,
-											diagnosticMode = "workspace",
-										},
-									},
-								},
-							})
-						-- Lua with lua_ls
-						elseif server_name == "lua_ls" then
-							require("lspconfig").lua_ls.setup({
-								capabilities = capabilities,
-								settings = {
-									Lua = {
-										runtime = { version = "LuaJIT" },
-										diagnostics = { globals = { "vim" } },
-										workspace = {
-											library = vim.api.nvim_get_runtime_file("", true),
-											checkThirdParty = false,
-										},
-										telemetry = { enable = false },
-									},
-								},
-							})
-						-- Default handler for all other servers
-						else
-							require("lspconfig")[server_name].setup({
-								capabilities = capabilities,
-							})
-						end
-					end,
-				},
 			})
 
 			-- LSP keymaps
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("user_lsp", { clear = true }),
 				callback = function(args)
-					local opts = { buffer = args.buf, noremap = true, silent = true }
+					local opts = { buffer = args.buf, silent = true }
 					vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 					vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
@@ -101,6 +112,15 @@ return {
 					vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
 					vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 				end,
+			})
+
+			-- Diagnostics UI
+			vim.diagnostic.config({
+				virtual_text = true,
+				signs = true,
+				underline = true,
+				update_in_insert = false,
+				severity_sort = true,
 			})
 
 			-- Show diagnostics on hover
