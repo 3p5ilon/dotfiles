@@ -41,7 +41,7 @@ return {
 	-- fugitive: Git commands from within Neovim (status, diff)
 	{
 		"tpope/vim-fugitive",
-		cmd = { "Git", "Gstatus" },
+		cmd = { "Git" },
 		keys = {
 			{ "<leader>gs", "<cmd>Git<CR>", desc = "Git status" },
 			{ "<leader>gd", "<cmd>Gdiffsplit<CR>", desc = "Git diff" },
