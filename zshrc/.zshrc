@@ -1,23 +1,82 @@
+# OMZ
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME=""
 plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
-
 source $ZSH/oh-my-zsh.sh
+
+# Prompt
 eval "$(starship init zsh)"
 
+# Editor
 export EDITOR='nvim'
-alias g++="/opt/homebrew/bin/g++-15"
-export PATH="/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
+export VISUAL='nvim'
 
-# Conda initialization
-__conda_setup="$('/Users/talapa/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# Path
+export PATH="/opt/homebrew/bin:$PATH"
+
+# Aliases
+alias c='clear'
+alias cat="bat"    # better cat
+alias grep="rg"    # better grep
+alias find="fd"    # better find
+alias man="tldr"   # better man
+alias g++="/opt/homebrew/bin/g++-15"
+
+# eza — better ls
+alias ls="eza --icons --group-directories-first"
+alias la="eza -a --icons --group-directories-first"
+alias lt="eza --tree --icons"
+alias l='eza -l --group-directories-first --icons'
+alias ll="eza -la --icons --git --group-directories-first"
+
+# zoxide — better cd
+eval "$(zoxide init zsh)"
+alias cd="z"
+
+# fd — used by fzf for file indexing
+export FZF_DEFAULT_COMMAND="fd --hidden --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --exclude .git"
+
+# fzf — fuzzy finder
+eval "$(fzf --zsh)"
+
+# fzf catppuccin mocha theme
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8 \
+--color=fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC \
+--color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8 \
+--color=selected-bg:#45475A,border:#6C7086,label:#CDD6F4 \
+--height 40% --border rounded --layout reverse"
+
+# fzf previews — shows file content or directory tree in preview window
+show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
+export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+
+# fzf completion — use fd for path and directory completion
+_fzf_compgen_path() { fd --hidden --exclude .git . "$1" }
+_fzf_compgen_dir() { fd --type=d --hidden --exclude .git . "$1" }
+_fzf_comprun() {
+    local command=$1
+    shift
+    case "$command" in
+        cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
+        export|unset) fzf --preview "eval 'echo ${}'" "$@" ;;
+        ssh)          fzf --preview 'dig {}' "$@" ;;
+        *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
+    esac
+}
+
+# Conda
+__conda_setup="$("$HOME/anaconda3/bin/conda" 'shell.zsh' 'hook' 2>/dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/Users/talapa/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/talapa/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "$HOME/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "$HOME/anaconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/Users/talapa/anaconda3/bin:$PATH"
+        export PATH="$HOME/anaconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -25,10 +84,7 @@ unset __conda_setup
 # Bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-[ -s "/Users/talapa/.bun/_bun" ] && source "/Users/talapa/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-# Disable Ctrl+s so tmux can use it as prefix
+# Disable Ctrl+s for tmux prefix
 stty -ixon
-
-# Antigravity
-export PATH="/Users/talapa/.antigravity/antigravity/bin:$PATH"
