@@ -15,7 +15,7 @@ return {
 					edge_left = "",
 					edge_right = "",
 					-- padding_a = { left = 1, right = 1 },
-					-- padding_z = { left = 1, right = 1 },
+					padding_z = { left = 0, right = 1 },
 				},
 				sharp = {
 					component = { left = "", right = "" },
