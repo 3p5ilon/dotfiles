@@ -1,33 +1,52 @@
 return {
 	{
 		"nvim-lualine/lualine.nvim",
-		dependencies = {
-			"nvim-tree/nvim-web-devicons",
-		},
+		dependencies = { "nvim-tree/nvim-web-devicons" },
 
 		config = function()
-			local style = "rounded" -- "sharp" | "rounded"
+			local style = "rounded" -- "sharp" | "rounded" | "soft"
 
-			local separator_styles = {
-				rounded = {
-					component = { left = "", right = "" },
-					section = { left = "", right = "" },
-					edge_left = "",
-					edge_right = "",
-					-- padding_a = { left = 1, right = 1 },
-					padding_z = { left = 0, right = 1 },
-				},
+			local styles = {
+
 				sharp = {
 					component = { left = "", right = "" },
 					section = { left = "", right = "" },
-					edge_left = nil,
-					edge_right = nil,
-					padding_a = { left = 2, right = 1 },
-					padding_z = { left = 1, right = 2 },
+					edge = nil,
+					padding = {
+						a = { left = 2, right = 1 },
+						z = { left = 1, right = 2 },
+					},
+				},
+
+				rounded = {
+					component = { left = "", right = "" },
+					section = { left = "", right = "" },
+					edge = { left = "", right = "" },
+					padding = {
+						a = { left = 1, right = 1 },
+						z = { left = 0, right = 1 },
+					},
+				},
+
+				soft = {
+					component = { left = "", right = "" },
+					section = { left = "", right = "" },
+					edge = nil,
+					padding = {
+						a = { left = 2, right = 1 },
+						z = { left = 0, right = 2 },
+					},
 				},
 			}
 
-			local s = separator_styles[style]
+			local s = styles[style]
+
+			local function edge_separator()
+				if not s.edge then
+					return nil
+				end
+				return { left = s.edge.left, right = s.edge.right }
+			end
 
 			require("lualine").setup({
 				options = {
@@ -42,17 +61,24 @@ return {
 				},
 
 				sections = {
+
 					lualine_a = {
 						{
 							"mode",
-							separator = style == "rounded" and { left = s.edge_left, right = s.edge_right } or nil,
-							padding = s.padding_a,
+							-- fmt = function(str)
+							-- 	return " " .. str
+							-- end,
+							separator = edge_separator(),
+							padding = s.padding.a,
 						},
 					},
 
 					lualine_b = {
 						{ "branch", icon = "" },
-						{ "diff", symbols = { added = "+", modified = "~", removed = "-" } },
+						{
+							"diff",
+							symbols = { added = "+", modified = "~", removed = "-" },
+						},
 					},
 
 					lualine_c = {
@@ -63,7 +89,12 @@ return {
 						{
 							"diagnostics",
 							sources = { "nvim_diagnostic" },
-							symbols = { error = " ", warn = " ", info = " " },
+							symbols = {
+								error = " ",
+								warn = " ",
+								info = " ",
+								hint = "󰌵 ",
+							},
 						},
 						"encoding",
 						"fileformat",
@@ -75,8 +106,8 @@ return {
 					lualine_z = {
 						{
 							"location",
-							separator = style == "rounded" and { left = s.edge_left, right = s.edge_right } or nil,
-							padding = s.padding_z,
+							separator = edge_separator(),
+							padding = s.padding.z,
 						},
 					},
 				},
