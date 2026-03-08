@@ -17,7 +17,7 @@ return {
 					mode = "buffers",
 					numbers = "none",
 
-					separator_style = "thick", -- slant | thick | slope | thin
+					-- separator_style = "thick", -- slant | thick | slope | thin
 					always_show_bufferline = true,
 
 					show_buffer_icons = true,
@@ -57,17 +57,19 @@ return {
 						},
 					},
 				},
-				-- highlights = {
-				-- 	fill = {
-				-- 		bg = "#181825", --  bufferline bar bg
-				-- 	},
-				-- },
 			})
 
 			local map = vim.keymap.set
 			map("n", "<Tab>", "<cmd>BufferLineCycleNext<CR>", { silent = true, desc = "Next buffer" })
 			map("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<CR>", { silent = true, desc = "Prev buffer" })
 			map("n", "<leader>bx", "<cmd>Bdelete<CR>", { desc = "Close buffer" })
+
+			map("n", "<leader>bX", function()
+				for _, buf in ipairs(vim.fn.getbufinfo({ buflisted = 1 })) do
+					vim.cmd("Bdelete! " .. buf.bufnr)
+				end
+			end, { desc = "Close all buffers" })
+
 			map("n", "<leader>bl", function()
 				vim.o.showtabline = vim.o.showtabline == 0 and 2 or 0
 			end, { desc = "Toggle bufferline" })
