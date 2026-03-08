@@ -1,58 +1,69 @@
 return {
-	-- gitsigns: Git status in gutter (adds │ for changes, _ for deletions)
+	-- Git signs in the gutter
 	{
 		"lewis6991/gitsigns.nvim",
 		event = { "BufReadPre", "BufNewFile" },
-		config = function()
-			require("gitsigns").setup({
-				signs = {
-					add = { text = "│" },
-					change = { text = "│" },
-					delete = { text = "_" },
-					topdelete = { text = "‾" },
-					changedelete = { text = "~" },
-				},
-				on_attach = function(bufnr)
-					local gitsigns = require("gitsigns")
 
-					-- Navigation between changes
-					vim.keymap.set("n", "]c", function()
-						gitsigns.next_hunk()
-					end, { buffer = bufnr, desc = "Next hunk" })
-					vim.keymap.set("n", "[c", function()
-						gitsigns.prev_hunk()
-					end, { buffer = bufnr, desc = "Prev hunk" })
+		opts = {
+			signs = {
+				add = { text = "│" },
+				change = { text = "│" },
+				delete = { text = "_" },
+				topdelete = { text = "‾" },
+				changedelete = { text = "~" },
+				untracked = { text = "┆" },
+			},
+			signs_staged = {
+				add = { text = "┃" },
+				change = { text = "┃" },
+				delete = { text = "" },
+				topdelete = { text = "" },
+				changedelete = { text = "┃" },
+				untracked = { text = "┆" },
+			},
 
-					-- Stage/undo individual hunks
-					vim.keymap.set("n", "<leader>hs", gitsigns.stage_hunk, { buffer = bufnr, desc = "Stage hunk" })
-					vim.keymap.set("n", "<leader>hr", gitsigns.reset_hunk, { buffer = bufnr, desc = "Reset hunk" })
-					vim.keymap.set("v", "<leader>hs", function()
-						gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-					end, { buffer = bufnr, desc = "Stage hunk" })
+			on_attach = function(bufnr)
+				local gs = require("gitsigns")
 
-					-- Blame line and file diff
-					vim.keymap.set("n", "<leader>hb", gitsigns.blame_line, { buffer = bufnr, desc = "Blame line" })
-					vim.keymap.set("n", "<leader>hd", gitsigns.diffthis, { buffer = bufnr, desc = "Diff this" })
-				end,
-			})
-		end,
-	},
+				local map = function(mode, lhs, rhs, desc)
+					vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+				end
 
-	-- fugitive: Git commands from within Neovim (status, diff)
-	{
-		"tpope/vim-fugitive",
-		cmd = { "Git" },
-		keys = {
-			{ "<leader>gs", "<cmd>Git<CR>", desc = "Git status" },
-			{ "<leader>gd", "<cmd>Gdiffsplit<CR>", desc = "Git diff" },
+				-- navigation
+				map("n", "]c", gs.next_hunk, "Next hunk")
+				map("n", "[c", gs.prev_hunk, "Prev hunk")
+
+				-- actions
+				map("n", "<leader>hs", gs.stage_hunk, "Stage hunk")
+				map("n", "<leader>hr", gs.reset_hunk, "Reset hunk")
+				map("n", "<leader>hS", gs.stage_buffer, "Stage buffer")
+				map("n", "<leader>hR", gs.reset_buffer, "Reset buffer")
+
+				-- preview / info
+				map("n", "<leader>hp", gs.preview_hunk, "Preview hunk")
+				map("n", "<leader>hP", gs.preview_hunk_inline, "Preview hunk inline")
+				map("n", "<leader>hb", gs.blame_line, "Blame line")
+				map("n", "<leader>hd", gs.diffthis, "Diff this")
+			end,
 		},
 	},
 
-	-- lazygit: Full Git TUI for complex operations (commit, push, rebase)
+	-- Git commands inside Neovim
+	{
+		"tpope/vim-fugitive",
+		keys = {
+			{ "<leader>gs", "<cmd>Git<CR>", desc = "Git status" },
+			{ "<leader>gd", "<cmd>Gdiffsplit<CR>", desc = "Git diff" },
+			{ "<leader>gc", "<cmd>Git commit<CR>", desc = "Git commit" },
+			{ "<leader>gp", "<cmd>Git push<CR>", desc = "Git push" },
+		},
+	},
+
+	-- LazyGit integration
 	{
 		"kdheepak/lazygit.nvim",
 		keys = {
-			{ "<leader>gg", "<cmd>LazyGit<CR>", desc = "Open LazyGit" },
+			{ "<leader>gg", "<cmd>LazyGit<CR>", desc = "LazyGit" },
 		},
 		cond = function()
 			return vim.fn.executable("lazygit") == 1
