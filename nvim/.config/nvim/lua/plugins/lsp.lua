@@ -1,28 +1,27 @@
 return {
-	-- LSP configuration using neovim 0.11+ vim.lsp.config API
-	-- Mason auto-installs all servers on first open
-
 	-- Mason (installer only)
 	{
-		"williamboman/mason.nvim",
+		"mason-org/mason.nvim",
 		build = ":MasonUpdate",
-		config = true,
+		opts = {},
 	},
 
-	-- Mason LSP Bridge
+	-- Mason LSP Bridge (v2)
 	{
-		"williamboman/mason-lspconfig.nvim",
+		"mason-org/mason-lspconfig.nvim",
 		dependencies = {
-			"williamboman/mason.nvim",
+			"mason-org/mason.nvim",
 			"neovim/nvim-lspconfig",
 			"hrsh7th/cmp-nvim-lsp",
 		},
 		config = function()
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+			-- Global capabilities (applied to all servers)
+			vim.lsp.config("*", {
+				capabilities = require("cmp_nvim_lsp").default_capabilities(),
+			})
 
 			-- Lua
 			vim.lsp.config("lua_ls", {
-				capabilities = capabilities,
 				settings = {
 					Lua = {
 						runtime = { version = "LuaJIT" },
@@ -38,7 +37,6 @@ return {
 
 			-- Python
 			vim.lsp.config("pyright", {
-				capabilities = capabilities,
 				settings = {
 					python = {
 						analysis = {
@@ -53,40 +51,32 @@ return {
 
 			-- C/C++
 			vim.lsp.config("clangd", {
-				capabilities = vim.tbl_deep_extend("force", capabilities, {
-					offsetEncoding = { "utf-16" }, -- clangd requires utf-16
-				}),
+				offset_encoding = "utf-16",
 				cmd = {
 					"clangd",
 					"--background-index",
 					"--clang-tidy",
 					"--header-insertion=iwyu",
-					"--completion-style=detailed",
-					"--function-arg-placeholders",
+					"--completion-style=bundled",
+					"--function-arg-placeholders=true",
 				},
 				init_options = {
 					usePlaceholders = true,
-					completeUnimported = true,
+					completeUnimported = false,
 					clangdFileStatus = true,
 				},
 			})
 
 			-- TypeScript/JavaScript
-			vim.lsp.config("ts_ls", {
-				capabilities = capabilities,
-			})
+			vim.lsp.config("ts_ls", {})
 
 			-- ESLint
-			vim.lsp.config("eslint", {
-				capabilities = capabilities,
-			})
+			vim.lsp.config("eslint", {})
 
 			-- Markdown
-			vim.lsp.config("marksman", {
-				capabilities = capabilities,
-			})
+			vim.lsp.config("marksman", {})
 
-			-- Mason setup
+			-- Mason setup (v2)
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"lua_ls",
@@ -96,7 +86,7 @@ return {
 					"eslint",
 					"marksman",
 				},
-				automatic_installation = true,
+				automatic_enable = true,
 			})
 
 			-- LSP keymaps
