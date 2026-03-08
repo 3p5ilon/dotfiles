@@ -1,9 +1,13 @@
 local api = vim.api
 
--- Highlight yank
-api.nvim_create_autocmd("TextYankPost", {
+-- Yank highlight
+vim.api.nvim_set_hl(0, "YankHighlight", { bg = "#89b4fa", fg = "#1e1e2e" })
+vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
-		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 150 })
+		vim.highlight.on_yank({
+			higroup = "YankHighlight",
+			timeout = 150,
+		})
 	end,
 })
 
