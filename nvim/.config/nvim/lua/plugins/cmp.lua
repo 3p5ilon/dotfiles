@@ -25,7 +25,6 @@ return {
 					["<C-Space>"] = cmp.mapping.complete(),
 					["<C-e>"] = cmp.mapping.abort(),
 					["<CR>"] = cmp.mapping.confirm({ select = true }),
-					-- Tab: cycle completions → expand snippets
 					["<Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.select_next_item()
@@ -52,6 +51,12 @@ return {
 					{ name = "buffer" },
 					{ name = "path" },
 				}),
+				formatting = {
+					format = function(entry, vim_item)
+						vim_item.menu = nil -- Removes the [LSP] text
+						return vim_item
+					end,
+				},
 			})
 		end,
 	},
