@@ -5,9 +5,9 @@ return {
 		config = function()
 			local lint = require("lint")
 			lint.linters_by_ft = {
-				-- python = { "pylint" },  -- requires: pylint
+				-- python = { "pylint" }, -- requires: pylint
 				-- cpp = { "clang-tidy" }, -- requires: clang-tidy
-				-- c = { "clang-tidy" },   -- requires: clang-tidy
+				-- c = { "clang-tidy" }, -- requires: clang-tidy
 				-- javascript = { "eslint" },
 				-- typescript = { "eslint" },
 				-- javascriptreact = { "eslint" },
