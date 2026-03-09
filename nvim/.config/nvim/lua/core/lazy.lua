@@ -1,3 +1,6 @@
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -15,15 +18,12 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
-
--- Load all core configurations
+-- Load core configs
 require("core.autocmds")
 require("core.keymaps")
 require("core.options")
 
--- Lazy plugin manager setup
+-- Setup lazy
 require("lazy").setup({
 	spec = {
 		{ import = "plugins" },
