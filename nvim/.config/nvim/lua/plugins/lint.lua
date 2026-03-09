@@ -1,22 +1,17 @@
 return {
-	-- nvim-lint: runs additional linters on save
+	-- nvim-lint: extra linting on save (beyond LSP diagnostics)
 	{
 		"mfussenegger/nvim-lint",
+		event = "BufWritePost",
 		config = function()
-			local lint = require("lint")
-			lint.linters_by_ft = {
-				-- python = { "pylint" }, -- requires: pylint
-				-- cpp = { "clang-tidy" }, -- requires: clang-tidy
-				-- c = { "clang-tidy" }, -- requires: clang-tidy
-				-- javascript = { "eslint" },
-				-- typescript = { "eslint" },
-				-- javascriptreact = { "eslint" },
-				-- typescriptreact = { "eslint" },
+			require("lint").linters_by_ft = {
+				python = { "pylint" },
 			}
-			-- Run linters on save
-			vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+
+			-- Trigger linting after every save
+			vim.api.nvim_create_autocmd("BufWritePost", {
 				callback = function()
-					lint.try_lint()
+					require("lint").try_lint()
 				end,
 			})
 		end,

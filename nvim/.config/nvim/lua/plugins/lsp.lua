@@ -1,12 +1,29 @@
 return {
-	-- Mason (installer only)
+	-- Mason: core installer UI
 	{
 		"mason-org/mason.nvim",
 		build = ":MasonUpdate",
 		opts = {},
 	},
 
-	-- Mason LSP Bridge (v2)
+	-- Mason Tool Installer: auto-installs formatters + linters
+	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		dependencies = { "mason-org/mason.nvim" },
+		opts = {
+			ensure_installed = {
+				"stylua",
+				"black",
+				"isort",
+				"clang-format",
+				"prettierd",
+				"pylint",
+			},
+			run_on_start = true,
+		},
+	},
+
+	-- Mason LSP Bridge: auto-installs + enables LSP servers
 	{
 		"mason-org/mason-lspconfig.nvim",
 		dependencies = {
@@ -15,7 +32,6 @@ return {
 			"hrsh7th/cmp-nvim-lsp",
 		},
 		config = function()
-			-- Global capabilities (applied to all servers)
 			vim.lsp.config("*", {
 				capabilities = require("cmp_nvim_lsp").default_capabilities(),
 			})
@@ -49,7 +65,7 @@ return {
 				},
 			})
 
-			-- C/C++
+			-- C/C++: utf-16 required by clangd
 			vim.lsp.config("clangd", {
 				offset_encoding = "utf-16",
 				cmd = {
@@ -67,16 +83,16 @@ return {
 				},
 			})
 
-			-- TypeScript/JavaScript
+			-- TS/JS
 			vim.lsp.config("ts_ls", {})
 
-			-- ESLint
+			-- ESLint: JS/TS linting via LSP
 			vim.lsp.config("eslint", {})
 
 			-- Markdown
 			vim.lsp.config("marksman", {})
 
-			-- Mason setup (v2)
+			-- Install servers + auto-start on attach
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"lua_ls",
@@ -89,7 +105,7 @@ return {
 				automatic_enable = true,
 			})
 
-			-- LSP keymaps
+			-- Keymaps
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("user_lsp", { clear = true }),
 				callback = function(args)
@@ -104,7 +120,7 @@ return {
 				end,
 			})
 
-			-- Diagnostics UI
+			-- Diagnostics
 			vim.diagnostic.config({
 				virtual_text = true,
 				signs = {
@@ -120,7 +136,7 @@ return {
 				severity_sort = true,
 			})
 
-			-- Show diagnostics on hover
+			-- Float diagnostic on cursor hold
 			vim.api.nvim_create_autocmd("CursorHold", {
 				callback = function()
 					vim.diagnostic.open_float(nil, { focusable = false })
