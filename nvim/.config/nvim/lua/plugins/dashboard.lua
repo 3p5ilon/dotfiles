@@ -6,7 +6,7 @@ return {
 			local alpha = require("alpha")
 			local dashboard = require("alpha.themes.dashboard")
 
-			vim.api.nvim_set_hl(0, "AlphaPurple", { fg = "#cba6f7" })
+			vim.api.nvim_set_hl(0, "AlphaPurple", { fg = "#cba6f7", bold = true })
 
 			dashboard.section.header.val = {
 				[[                                                                     ]],
@@ -23,82 +23,64 @@ return {
 
 			-- Dashboard Buttons
 			dashboard.section.buttons.val = {
-				dashboard.button("e", "  New file", ":ene <BAR> startinsert<CR>"),
+				dashboard.button("n", "  New file", ":ene <BAR> startinsert<CR>"),
 				dashboard.button("f", "󰈞  Find file", ":Telescope find_files<CR>"),
 				dashboard.button("r", "  Recent files", ":Telescope oldfiles<CR>"),
 				dashboard.button("g", "󰊄  Live grep", ":Telescope live_grep<CR>"),
 				dashboard.button("c", "  Config", ":Telescope find_files cwd=~/.config/nvim/<CR>"),
-				dashboard.button("q", "󰅚  Quit", ":qa<CR>"),
+				dashboard.button("q", "  Quit", ":qa<CR>"),
 			}
 			dashboard.section.buttons.opts.hl = "Keyword"
 
-			local function get_recent_files()
-				local files = {}
-				local oldfiles = vim.v.oldfiles or {}
-				for i = 1, math.min(5, #oldfiles) do
-					local file = oldfiles[i]
-					if vim.fn.filereadable(file) == 1 then
-						table.insert(files, {
-							type = "text",
-							val = string.format("  %d. %s", i, vim.fn.fnamemodify(file, ":~")),
-							opts = { hl = "Normal" },
-							on_press = function()
-								vim.cmd("edit " .. file)
-							end,
-						})
-					end
-				end
-				return files
-			end
-
-			-- Footer with lazy.nvim stats
-			local function footer()
+			-- Footer with string formatting
+			dashboard.section.footer.val = function()
 				local stats = require("lazy").stats()
+				local ms = string.format("%.2f", stats.startuptime)
 				local plugins = "󱉧 " .. stats.loaded .. "/" .. stats.count
-				local uptime = "󰅐 " .. string.format("%.2f", vim.loop.hrtime() / 1e9) .. "s"
+				local load_time = "󰅐 " .. ms .. "ms"
 				local version = " " .. vim.version().major .. "." .. vim.version().minor
-				return "  " .. plugins .. "  |  " .. uptime .. "  |  " .. version
+
+				return "  " .. plugins .. "  │  " .. load_time .. "  │  " .. version
 			end
-			dashboard.section.footer.val = footer()
 			dashboard.section.footer.opts.hl = "Comment"
 
-			-- Vertical centering
-			local function get_center_padding()
-				local total_lines = vim.o.lines
-				local content_height = #dashboard.section.header.val + 15
-				return math.max(1, math.floor((total_lines - content_height) / 2) - 3)
+			-- Centering logic
+			local function get_padding()
+				local total_h = #dashboard.section.header.val + 2 + #dashboard.section.buttons.val + 2 + 1
+				return math.max(0, math.floor((vim.o.lines - total_h) / 2) - 4)
 			end
 
 			dashboard.config.layout = {
-				{ type = "padding", val = get_center_padding },
+				{ type = "padding", val = get_padding() },
 				dashboard.section.header,
 				{ type = "padding", val = 2 },
 				dashboard.section.buttons,
 				{ type = "padding", val = 2 },
-				{ type = "group", val = get_recent_files() },
-				{ type = "padding", val = 2 },
 				dashboard.section.footer,
 			}
 
-			-- Disable scroll and UI elements when dashboard is open
+			local group = vim.api.nvim_create_augroup("AlphaSetup", { clear = true })
+
+			-- Clean UI & Protect buffer
 			vim.api.nvim_create_autocmd("FileType", {
+				group = group,
 				pattern = "alpha",
 				callback = function()
-					vim.opt_local.wrap = false
-					vim.opt_local.scrolloff = 0
 					vim.opt_local.laststatus = 0
 					vim.opt_local.showtabline = 0
 					vim.opt_local.signcolumn = "no"
-					vim.bo.modifiable = false
+					vim.opt_local.modifiable = false
 				end,
 			})
 
-			-- Restore UI elements when leaving dashboard
-			vim.api.nvim_create_autocmd("BufUnload", {
-				buffer = 0,
+			-- Handle terminal resize
+			vim.api.nvim_create_autocmd("VimResized", {
+				group = group,
 				callback = function()
-					vim.opt.laststatus = 3
-					vim.opt.showtabline = 2
+					if vim.bo.filetype == "alpha" then
+						dashboard.config.layout[1].val = get_padding()
+						alpha.redraw()
+					end
 				end,
 			})
 
