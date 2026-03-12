@@ -1,37 +1,31 @@
 return {
-	-- Renders markdown formatting (headings, checkboxes, code blocks)
+	-- renders markdown formatting
 	{
-		"MeanderingProgrammer/render-markdown.nvim",
+		"meanderingprogrammer/render-markdown.nvim",
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-tree/nvim-web-devicons",
 		},
 		ft = { "markdown" },
-		opts = {},
+		opts = {
+			-- render_modes = true,
+		},
 	},
 
-	-- Renders LaTeX math formulas directly in buffer
+	-- renders latex directly in buffer
 	{
 		"jbyuki/nabla.nvim",
 		ft = { "markdown", "tex" },
 		config = function()
 			local nabla = require("nabla")
-			local nabla_group = vim.api.nvim_create_augroup("NablaAuto", { clear = true })
-			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
-				group = nabla_group,
-				pattern = { "*.md", "*.tex" },
-				callback = function()
-					-- Automatically show the rendered math
-					nabla.enable_virt()
-				end,
-			})
-			vim.keymap.set("n", "<leader>m", function() -- toggle rendered math
+
+			vim.keymap.set("n", "<leader>m", function()
 				nabla.toggle_virt()
-			end, { desc = "Toggle LaTeX" })
+			end, { desc = "Toggle LaTeX rendering" })
 		end,
 	},
 
-	-- Live markdown preview in browser (requires node/npm)
+	-- Live markdown preview in browser (requires npm)
 	-- {
 	-- 	"iamcco/markdown-preview.nvim",
 	-- 	cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
