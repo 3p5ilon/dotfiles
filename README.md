@@ -2,6 +2,20 @@
 
 My development configuration managed with GNU Stow for easy deployment across machines.
 
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/4c805f83-15e9-44cd-b6ba-e254f5287c2a" alt="Neovim" width="100%"/>
+</div>
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/80f3a899-58b4-44a4-9800-1eace2dfe554" alt="Yazi" width="49%"/>
+  <img src="https://github.com/user-attachments/assets/1e8f9b63-8c83-4a75-a785-6f256a8498a6" alt="CLI Tools" width="49%"/>
+</div>
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/9c00a654-b548-4391-83c4-559b4943c2cd" alt="Btop" width="49%"/>
+  <img src="https://github.com/user-attachments/assets/ec18b47b-4bdd-4ea5-92c8-79521675d9c6" alt="fastfetch" width="49%"/>
+</div>
+
 > [!WARNING]
 > This repository will overwrite your existing configuration files. A backup is created automatically during installation.
 
