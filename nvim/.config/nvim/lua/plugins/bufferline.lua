@@ -28,6 +28,7 @@ return {
 
 					close_command = "Bdelete! %d", -- using vim-bbye
 					right_mouse_command = "Bdelete! %d",
+					left_mouse_command = "buffer %d",
 
 					hover = {
 						enabled = true,
@@ -52,7 +53,7 @@ return {
 							filetype = "neo-tree",
 							text = "Neo Tree",
 							text_align = "left",
-							-- highlight = "Directory",
+							highlight = "Directory",
 							-- separator = true,
 						},
 					},
@@ -60,15 +61,23 @@ return {
 			})
 
 			local map = vim.keymap.set
-			map("n", "<Tab>", "<cmd>BufferLineCycleNext<CR>", { silent = true, desc = "Next buffer" })
-			map("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<CR>", { silent = true, desc = "Prev buffer" })
-			map("n", "<leader>bx", "<cmd>Bdelete<CR>", { desc = "Close buffer" })
+			map("n", "<Tab>", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
+			map("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Prev buffer" })
+			map("n", "]b", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
+			map("n", "[b", "<cmd>BufferLineCyclePrev<CR>", { desc = "Prev buffer" })
+			map("n", "]B", "<cmd>BufferLineMoveNext<CR>", { desc = "Move buffer right" })
+			map("n", "[B", "<cmd>BufferLineMovePrev<CR>", { desc = "Move buffer left" })
 
-			map("n", "<leader>bX", function()
+			map("n", "<leader>bd", "<cmd>Bdelete<CR>", { desc = "Close buffer" })
+
+			map("n", "<leader>bD", function()
 				for _, buf in ipairs(vim.fn.getbufinfo({ buflisted = 1 })) do
 					vim.cmd("Bdelete! " .. buf.bufnr)
 				end
 			end, { desc = "Close all buffers" })
+
+			map("n", "<leader>bp", "<cmd>BufferLineTogglePin<CR>", { desc = "Toggle pin buffer" })
+			map("n", "<leader>bP", "<cmd>BufferLineGroupClose ungrouped<CR>", { desc = "Delete non-pinned buffers" })
 
 			map("n", "<leader>bl", function()
 				vim.o.showtabline = vim.o.showtabline == 0 and 2 or 0
