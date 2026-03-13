@@ -61,7 +61,7 @@ return {
 
 			local group = vim.api.nvim_create_augroup("AlphaSetup", { clear = true })
 
-			-- Clean UI & Protect buffer
+			-- Hide UI on dashboard
 			vim.api.nvim_create_autocmd("FileType", {
 				group = group,
 				pattern = "alpha",
@@ -70,6 +70,15 @@ return {
 					vim.opt_local.showtabline = 0
 					vim.opt_local.signcolumn = "no"
 					vim.opt_local.modifiable = false
+				end,
+			})
+			-- Restore UI on exit
+			vim.api.nvim_create_autocmd("BufUnload", {
+				group = group,
+				buffer = 0,
+				callback = function()
+					vim.opt.showtabline = 2
+					vim.opt.signcolumn = "yes"
 				end,
 			})
 
