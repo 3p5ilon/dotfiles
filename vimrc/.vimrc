@@ -32,31 +32,7 @@ set pastetoggle=<F11>
 " Tab jumps to matching bracket
 noremap <TAB> %
 
-" " CP compilation keys (commented out)
-" " Python run
-" noremap <F6> <ESC>:w<CR>:!python3 %<CR>
-" inoremap <F6> <ESC>:w<CR>:!python3 %<CR>
-
-" " GCC with optimizations (fast compilation)
-" noremap <F7> <ESC>:w<CR>:execute 'cd %:p:h'<CR>:!g++ -std=c++17 -DONPC -O2 -o "%<" "%" && "./%<" < inp<CR>
-" inoremap <F7> <ESC>:w<CR>:execute 'cd %:p:h'<CR>:!g++ -std=c++17 -DONPC -O2 -o "%<" "%" && "./%<" < inp<CR>
-
-" " Clang with sanitizer for debugging
-" noremap <F8> <ESC>:w<CR>:execute 'cd %:p:h'<CR>:!clang++ -fsanitize=address -std=c++17 -Wall -Wextra -Wshadow -DONPC -O2 -o "%<" "%" && "./%<" < inp<CR>
-" inoremap <F8> <ESC>:w<CR>:execute 'cd %:p:h'<CR>:!clang++ -fsanitize=address -std=c++17 -Wall -Wextra -Wshadow -DONPC -O2 -o "%<" "%" && "./%<" < inp<CR>
-
-" " GCC with warnings, no input (manual testing)
-" noremap <F9> <ESC>:w<CR>:execute 'cd %:p:h'<CR>:!g++ -std=c++17 -Wall -Wextra -Wshadow -DONPC -O2 -o "%<" "%" && "./%<" <CR>
-" inoremap <F9> <ESC>:w<CR>:execute 'cd %:p:h'<CR>:!g++ -std=c++17 -Wall -Wextra -Wshadow -DONPC -O2 -o "%<" "%" && "./%<" <CR>
-
-" " GCC with sanitizer and input
-" " noremap <F10> <ESC>:w<CR>:!g++ -fsanitize=address -std=c++17 -Wall -Wextra -Wshadow -DONPC -O2 -o %< % && ./%< < inp<CR>
-" " inoremap <F10> <ESC>:w<CR>:!g++ -fsanitize=address -std=c++17 -Wall -Wextra -Wshadow -DONPC -O2 -o %< % && ./%< < inp<CR>
-
-" " GCC with warnings and input
-" noremap <F10> <ESC>:w<CR>:execute 'cd %:p:h'<CR>:!g++ -std=c++17 -Wall -Wextra -Wshadow -DONPC -O2 -o "%<" "%" && "./%<" < inp<CR>
-" inoremap <F10> <ESC>:w<CR>:execute 'cd %:p:h'<CR>:!g++ -std=c++17 -Wall -Wextra -Wshadow -DONPC -O2 -o "%<" "%" && "./%<" < inp<CR>" Plugins
-
+" Plugins
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-commentary'      " Comment with gc
 Plug 'tpope/vim-surround'        " Change brackets/quotes
@@ -93,9 +69,7 @@ set mousehide
 set autoindent smartindent
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4
 set backspace=indent,eol,start
-set cin
-set si
-set smarttab
+set cin si smarttab
 
 " Text rendering
 set is
