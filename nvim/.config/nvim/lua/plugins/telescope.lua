@@ -12,22 +12,13 @@ return {
 					return vim.fn.executable("make") == 1
 				end,
 			},
-			"nvim-telescope/telescope-ui-select.nvim",
 		},
 		config = function()
-			require("telescope").setup({
-				extensions = {
-					["ui-select"] = {
-						require("telescope.themes").get_dropdown({}),
-					},
-				},
-			})
-
+			require("telescope").setup({})
 			pcall(require("telescope").load_extension, "fzf")
-			require("telescope").load_extension("ui-select") -- Makes LSP code actions appear in Telescope
 		end,
+		-- Uncomment to use telescope instead of fzf-lua
 		keys = {
-			-- Uncomment to use telescope instead of fzf-lua
 			-- { "<leader>tff", "<cmd>Telescope find_files<CR>",  desc = "Find files" },
 			-- { "<leader>tfg", "<cmd>Telescope live_grep<CR>",   desc = "Live grep" },
 			-- { "<leader>tfb", "<cmd>Telescope buffers<CR>",     desc = "Buffers" },
