@@ -18,6 +18,19 @@ return {
 					},
 				},
 
+				slant = {
+					-- component = { left = "", right = "" },
+					-- section = { left = "", right = "" },
+
+					component = { left = "", right = "" },
+					section = { left = "", right = "" },
+					edge = nil,
+					padding = {
+						a = { left = 2, right = 1 },
+						z = { left = 1, right = 2 },
+					},
+				},
+
 				rounded = {
 					component = { left = "", right = "" },
 					section = { left = "", right = "" },
@@ -50,7 +63,7 @@ return {
 
 			require("lualine").setup({
 				options = {
-					theme = "catppuccin",
+					theme = "catppuccin-nvim",
 					globalstatus = true,
 					icons_enabled = true,
 					component_separators = s.component,
@@ -77,7 +90,8 @@ return {
 						{ "branch", icon = "" },
 						{
 							"diff",
-							symbols = { added = "+", modified = "~", removed = "-" },
+							-- symbols = { added = "+", modified = "~", removed = "-" },
+							symbols = { added = " ", modified = " ", removed = " " },
 						},
 					},
 
