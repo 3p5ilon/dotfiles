@@ -4,9 +4,9 @@ vim.g.maplocalleader = " "
 local map = vim.keymap.set
 
 -- Window splits
-map("n", "<leader>-", "<c-w>s", { desc = "split below", remap = true })
-map("n", "<leader>|", "<c-w>v", { desc = "split right", remap = true })
-map("n", "<leader>wd", "<c-w>c", { desc = "close window", remap = true })
+map("n", "<leader>-", "<c-w>s", { desc = "split below" })
+map("n", "<leader>|", "<c-w>v", { desc = "split right" })
+map("n", "<leader>wd", "<c-w>c", { desc = "close window" })
 
 -- navigate splits
 map("n", "<c-h>", "<c-w>h", { desc = "window left" })
