@@ -1,8 +1,6 @@
 return {
 	{
 		"nvim-lualine/lualine.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-
 		config = function()
 			local style = "rounded" -- "sharp" | "rounded" | "soft"
 

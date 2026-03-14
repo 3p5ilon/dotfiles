@@ -2,7 +2,6 @@ return {
 	{
 		"akinsho/bufferline.nvim",
 		dependencies = {
-			{ "nvim-tree/nvim-web-devicons", opts = {} },
 			"moll/vim-bbye", -- Better buffer deletion
 		},
 		version = "*",

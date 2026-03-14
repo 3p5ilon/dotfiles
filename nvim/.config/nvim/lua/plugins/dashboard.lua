@@ -1,7 +1,6 @@
 return {
 	{
 		"goolord/alpha-nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			local alpha = require("alpha")
 			local dashboard = require("alpha.themes.dashboard")
@@ -24,10 +23,10 @@ return {
 			-- Dashboard Buttons
 			dashboard.section.buttons.val = {
 				dashboard.button("n", "  New file", ":ene <BAR> startinsert<CR>"),
-				dashboard.button("f", "󰈞  Find file", ":Telescope find_files<CR>"),
-				dashboard.button("r", "  Recent files", ":Telescope oldfiles<CR>"),
-				dashboard.button("g", "󰊄  Live grep", ":Telescope live_grep<CR>"),
-				dashboard.button("c", "  Config", ":Telescope find_files cwd=~/.config/nvim/<CR>"),
+				dashboard.button("f", "󰈞  Find file", "<cmd>FzfLua files<CR>"),
+				dashboard.button("r", "  Recent files", "<cmd>FzfLua oldfiles<CR>"),
+				dashboard.button("g", "󰊄  Live grep", "<cmd>FzfLua live_grep<CR>"),
+				dashboard.button("c", "  Config", "<cmd>FzfLua files cwd=~/.config/nvim/<CR>"),
 				dashboard.button("q", "  Quit", ":qa<CR>"),
 			}
 			dashboard.section.buttons.opts.hl = "Keyword"
