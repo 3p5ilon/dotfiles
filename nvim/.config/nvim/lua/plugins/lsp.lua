@@ -12,11 +12,16 @@ return {
 		dependencies = { "mason-org/mason.nvim" },
 		opts = {
 			ensure_installed = {
+				-- formatters
 				"stylua",
 				"black",
 				"isort",
 				"clang-format",
 				"prettierd",
+				"gofumpt",
+				"goimports",
+
+				-- linters
 				"pylint",
 			},
 			run_on_start = true,
@@ -29,11 +34,11 @@ return {
 		dependencies = {
 			"mason-org/mason.nvim",
 			"neovim/nvim-lspconfig",
-			"hrsh7th/cmp-nvim-lsp",
 		},
 		config = function()
+			-- Global capabilities via blink.cmp
 			vim.lsp.config("*", {
-				capabilities = require("cmp_nvim_lsp").default_capabilities(),
+				capabilities = require("blink.cmp").get_lsp_capabilities(),
 			})
 
 			-- Lua
@@ -92,6 +97,30 @@ return {
 			-- Markdown
 			vim.lsp.config("marksman", {})
 
+			-- Rust: rust-analyzer handles everything (format, lint, LSP)
+			vim.lsp.config("rust_analyzer", {
+				settings = {
+					["rust-analyzer"] = {
+						checkOnSave = true,
+						check = {
+							command = "clippy", -- use clippy for linting
+						},
+						cargo = { allFeatures = true },
+					},
+				},
+			})
+
+			-- Go
+			vim.lsp.config("gopls", {
+				settings = {
+					gopls = {
+						analyses = { unusedparams = true },
+						staticcheck = true,
+						gofumpt = true,
+					},
+				},
+			})
+
 			-- Install servers + auto-start on attach
 			require("mason-lspconfig").setup({
 				ensure_installed = {
@@ -101,6 +130,8 @@ return {
 					"ts_ls",
 					"eslint",
 					"marksman",
+					"rust_analyzer",
+					"gopls",
 				},
 				automatic_enable = true,
 			})

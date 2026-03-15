@@ -18,6 +18,8 @@ return {
 				yaml = { "prettierd" },
 				html = { "prettierd" },
 				css = { "prettierd" },
+				rust = { "rustfmt" },
+				go = { "gofumpt", "goimports" },
 			},
 			format_on_save = {
 				timeout_ms = 2000,
