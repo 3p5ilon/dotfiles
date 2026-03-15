@@ -15,39 +15,46 @@ return {
 				function()
 					require("dap").step_over()
 				end,
-				desc = "Step Over",
+				desc = "Step over",
 			},
 			{
 				"<F11>",
 				function()
 					require("dap").step_into()
 				end,
-				desc = "Step Into",
+				desc = "Step into",
 			},
 			{
 				"<F12>",
 				function()
 					require("dap").step_out()
 				end,
-				desc = "Step Out",
+				desc = "Step out",
 			},
 			{
 				"<leader>b",
 				function()
 					require("dap").toggle_breakpoint()
 				end,
-				desc = "Toggle Breakpoint",
+				desc = "Toggle breakpoint",
 			},
 			{
 				"<leader>dr",
 				function()
 					require("dap").repl.open()
 				end,
-				desc = "REPL",
+				desc = "Open debug REPL",
+			},
+			{
+				"<leader>du",
+				function()
+					require("dapui").toggle()
+				end,
+				desc = "Toggle DAP UI",
 			},
 		},
 		config = function()
-			-- Make breakpoints visible with icons
+			-- breakpoint icons
 			vim.fn.sign_define("DapBreakpoint", {
 				text = "",
 				texthl = "DiagnosticError",
@@ -64,7 +71,7 @@ return {
 		end,
 	},
 
-	-- UI for debugging
+	-- DAP UI: auto-opens/closes on debug session
 	{
 		"rcarriga/nvim-dap-ui",
 		dependencies = {
@@ -72,17 +79,15 @@ return {
 			"nvim-neotest/nvim-nio",
 		},
 		config = function()
-			local dapui = require("dapui")
+			local dap, dapui = require("dap"), require("dapui")
 			dapui.setup()
-
-			local dap = require("dap")
 			dap.listeners.after.event_initialized["dapui_config"] = dapui.open
 			dap.listeners.before.event_terminated["dapui_config"] = dapui.close
 			dap.listeners.before.event_exited["dapui_config"] = dapui.close
 		end,
 	},
 
-	-- Inline variable values
+	-- Inline variable values while debugging
 	{
 		"theHamsta/nvim-dap-virtual-text",
 		dependencies = { "mfussenegger/nvim-dap" },
