@@ -52,7 +52,7 @@
 
     "break",
 
-    { "type": "os",       "key": "  OS",        "keyColor": "red" },
+    { "type": "os",       "key": "󰕈  OS",        "keyColor": "red" },
     { "type": "host",     "key": "󰌢  Host",      "keyColor": "red" },
     { "type": "kernel",   "key": "  Kernel",    "keyColor": "red" },
     { "type": "uptime",   "key": "  Uptime",    "keyColor": "red" },
