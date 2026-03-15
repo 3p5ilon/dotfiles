@@ -1,7 +1,5 @@
 # Dotfiles
 
-My development configuration managed with GNU Stow for easy deployment across machines.
-
 <div align="center">
   <img src="https://github.com/user-attachments/assets/4c805f83-15e9-44cd-b6ba-e254f5287c2a" alt="Neovim" width="100%"/>
 </div>
@@ -16,6 +14,8 @@ My development configuration managed with GNU Stow for easy deployment across ma
   <img src="https://github.com/user-attachments/assets/ec18b47b-4bdd-4ea5-92c8-79521675d9c6" alt="fastfetch" width="49%"/>
 </div>
 
+My development configuration managed with GNU Stow for easy deployment across machines.
+
 > [!WARNING]
 > This repository will overwrite your existing configuration files. A backup is created automatically during installation.
 
@@ -23,21 +23,24 @@ My development configuration managed with GNU Stow for easy deployment across ma
 
 ```bash
 # macOS
-xcode-select --install
-brew install git stow neovim tmux starship node ripgrep \
-             fzf fd eza zoxide bat yazi btop fastfetch tlrc lazygit
+xcode-select --install  # gcc, make, git, python3
+brew install git stow neovim tmux starship node python go \
+             ripgrep fzf fd eza zoxide bat yazi btop fastfetch tlrc lazygit
 brew install --cask kitty ghostty font-jetbrains-mono-nerd-font
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh  # rust
 
 # Linux (Ubuntu/Debian)
-sudo apt install git stow neovim tmux nodejs gcc make ripgrep fzf fd-find eza zoxide bat lazygit
-curl -sS https://starship.rs/install.sh | sh
+sudo apt install git stow neovim tmux nodejs gcc make python3 python3-pip \
+                 golang ripgrep fzf fd-find eza zoxide bat lazygit
+curl -sS https://starship.rs/install.sh | sh  # starship
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh  # rust
 # Kitty:   https://sw.kovidgoyal.net/kitty/
 # Ghostty: https://ghostty.org/download
 # Font:    https://www.nerdfonts.com/font-downloads (JetBrainsMono Nerd Font)
 ```
 
 > [!NOTE]
-> `node`, `gcc`, `make`, and `ripgrep` are required for Neovim LSP servers and Telescope.
+> `node`, `gcc`, `make`, `python3`, `go`, `rustc`, and `ripgrep` are required for Neovim LSP servers and DAP debuggers.
 
 ## Quick Install
 
@@ -77,18 +80,18 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 ### Core
 
-| Tool                                                         | Location                  | Description                                      |
-| ------------------------------------------------------------ | ------------------------- | ------------------------------------------------ |
-| [Neovim](https://github.com/neovim/neovim)                   | `~/.config/nvim`          | Text editor with LSP, treesitter, telescope, DAP |
-| [Tmux](https://github.com/tmux/tmux)                         | `~/.tmux.conf`            | Terminal multiplexer                             |
-| [Kitty](https://github.com/kovidgoyal/kitty)                 | `~/.config/kitty`         | GPU-accelerated terminal                         |
-| [Ghostty](https://github.com/ghostty-org/ghostty)            | `~/.config/ghostty`       | Fast native terminal                             |
-| [Vim](https://github.com/vim/vim)                            | `~/.vimrc`                | Basic Vim config with essential plugins          |
-| [Zsh](https://www.zsh.org) + [Oh-My-Zsh](https://ohmyz.sh)   | `~/.zshrc`                | Shell with plugins                               |
-| [Starship](https://github.com/starship/starship)             | `~/.config/starship.toml` | Cross-shell prompt                               |
-| [Catppuccin Mocha](https://github.com/catppuccin/catppuccin) | —                         | Colorscheme across all tools                     |
-| [JetBrainsMono Nerd Font](https://www.nerdfonts.com/)        | —                         | Monospace font with icons                        |
-| [GNU Stow](https://www.gnu.org/software/stow/)               | `~/.dotfiles`             | Dotfiles manager                                 |
+| Tool                                                         | Location                  | Description                                    |
+| ------------------------------------------------------------ | ------------------------- | ---------------------------------------------- |
+| [Neovim](https://github.com/neovim/neovim)                   | `~/.config/nvim`          | Text editor with LSP, treesitter, fzf-lua, DAP |
+| [Tmux](https://github.com/tmux/tmux)                         | `~/.tmux.conf`            | Terminal multiplexer                           |
+| [Kitty](https://github.com/kovidgoyal/kitty)                 | `~/.config/kitty`         | GPU-accelerated terminal                       |
+| [Ghostty](https://github.com/ghostty-org/ghostty)            | `~/.config/ghostty`       | Fast native terminal                           |
+| [Vim](https://github.com/vim/vim)                            | `~/.vimrc`                | Basic Vim config with essential plugins        |
+| [Zsh](https://www.zsh.org) + [Oh-My-Zsh](https://ohmyz.sh)   | `~/.zshrc`                | Shell with plugins                             |
+| [Starship](https://github.com/starship/starship)             | `~/.config/starship.toml` | Cross-shell prompt                             |
+| [Catppuccin Mocha](https://github.com/catppuccin/catppuccin) | —                         | Colorscheme across all tools                   |
+| [JetBrainsMono Nerd Font](https://www.nerdfonts.com/)        | —                         | Monospace font with icons                      |
+| [GNU Stow](https://www.gnu.org/software/stow/)               | `~/.dotfiles`             | Dotfiles manager                               |
 
 ### CLI Tools
 
