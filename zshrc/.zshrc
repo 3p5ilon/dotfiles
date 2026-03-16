@@ -1,18 +1,26 @@
-# OMZ
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME=""
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
-source $ZSH/oh-my-zsh.sh
-
-# Prompt
+# Starship prompt
 eval "$(starship init zsh)"
+
+# History
+HISTSIZE=5000
+HISTFILE=~/.zsh_history
+SAVEHIST=$HISTSIZE
+setopt appendhistory sharehistory hist_ignore_all_dups
+
+# Plugins
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Editor
 export EDITOR='nvim'
 export VISUAL='nvim'
 
 # Path
-export PATH="/opt/homebrew/bin:$PATH"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    export PATH="/opt/homebrew/bin:$PATH"
+    alias g++="/opt/homebrew/bin/g++-15"
+fi
+export PATH="$HOME/.local/bin:$PATH"
 
 # Aliases
 alias c='clear'
@@ -20,7 +28,6 @@ alias cat="bat"    # better cat
 alias grep="rg"    # better grep
 alias find="fd"    # better find
 alias man="tldr"   # better man
-alias g++="/opt/homebrew/bin/g++-15"
 
 # eza — better ls
 alias ls="eza --icons --group-directories-first"
@@ -33,10 +40,15 @@ alias ll="eza -la --icons --git --group-directories-first"
 eval "$(zoxide init zsh)"
 alias cd="z"
 
-# fd — used by fzf for file indexing
-export FZF_DEFAULT_COMMAND="fd --hidden --exclude .git"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND="fd --type=d --hidden --exclude .git"
+# yazi
+# https://yazi-rs.github.io/docs/quick-start#shell-wrapper
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
 
 # fzf — fuzzy finder
 eval "$(fzf --zsh)"
@@ -48,6 +60,11 @@ export FZF_DEFAULT_OPTS=" \
 --color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8 \
 --color=selected-bg:#45475A,border:#6C7086,label:#CDD6F4 \
 --height 40% --border rounded --layout reverse"
+
+# fd — used by fzf for file indexing
+export FZF_DEFAULT_COMMAND="fd --hidden --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --exclude .git"
 
 # fzf previews — shows file content or directory tree in preview window
 show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
@@ -85,6 +102,3 @@ unset __conda_setup
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-
-# Disable Ctrl+s for tmux prefix
-stty -ixon
