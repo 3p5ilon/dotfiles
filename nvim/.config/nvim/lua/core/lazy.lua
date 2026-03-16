@@ -1,6 +1,3 @@
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
-
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -28,7 +25,7 @@ require("lazy").setup({
 	spec = {
 		{ import = "plugins" },
 	},
-	-- Colorscheme for plugin installation (not actual theme)
+	-- Colorscheme for plugin installation
 	install = { colorscheme = { "catppuccin-nvim" } },
 	checker = {
 		enabled = true, -- check for plugin updates
