@@ -1,4 +1,4 @@
-# Dotfiles
+# dotfiles
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/4c805f83-15e9-44cd-b6ba-e254f5287c2a" alt="Neovim" width="100%"/>
@@ -18,7 +18,7 @@
 
 My development environment for macOS and Linux, managed with GNU Stow for easy deployment across machines.
 
-> Feel free to use as inspiration, but make sure you understand what each config does before copying. When in doubt, Google it or ask AI.
+Feel free to use as inspiration, but make sure you understand what each config does before copying. When in doubt, Google it or ask AI.
 
 ## What's Included
 
@@ -61,9 +61,6 @@ This repo uses [GNU Stow](https://www.gnu.org/software/stow/) to symlink dotfile
 
 ### Prerequisites
 
-> [!NOTE]
-> If you encounter errors during installation, refer to the tool's documentation.
-
 ```bash
 # macOS
 xcode-select --install  # gcc, make, git, python3
@@ -83,6 +80,8 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh  # rust
 ```
 
 > [!NOTE]
+> If you encounter errors during installation, refer to the package's documentation.
+>
 > `node`, `gcc`, `make`, `python3`, `go`, `rustc`, and `ripgrep` are required for Neovim LSP servers and DAP debuggers.
 
 ### Quick Install
@@ -90,6 +89,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh  # rust
 ```bash
 git clone https://github.com/3p5ilon/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
+
 ./install.sh
 ```
 
