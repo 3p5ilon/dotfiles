@@ -14,12 +14,55 @@
   <img src="https://github.com/user-attachments/assets/ec18b47b-4bdd-4ea5-92c8-79521675d9c6" alt="fastfetch" width="49%"/>
 </div>
 
-My development configuration managed with GNU Stow for easy deployment across machines.
+## About
+
+My development environment for macOS and Linux, managed with GNU Stow for easy deployment across machines.
+
+> Feel free to use as inspiration, but make sure you understand what each config does before copying. When in doubt, Google it or ask AI.
+
+## What's Included
+
+### Core
+
+| Tool                                                         | Location                  | Description                                |
+| ------------------------------------------------------------ | ------------------------- | ------------------------------------------ |
+| [Neovim](https://github.com/neovim/neovim)                   | `~/.config/nvim`          | Text editor with LSP, treesitter, fzf, DAP |
+| [Tmux](https://github.com/tmux/tmux)                         | `~/.tmux.conf`            | Terminal multiplexer                       |
+| [Kitty](https://github.com/kovidgoyal/kitty)                 | `~/.config/kitty`         | GPU-accelerated terminal                   |
+| [Ghostty](https://github.com/ghostty-org/ghostty)            | `~/.config/ghostty`       | Fast native terminal                       |
+| [Vim](https://github.com/vim/vim)                            | `~/.vimrc`                | Basic Vim config with essential plugins    |
+| [Zsh](https://www.zsh.org)                                   | `~/.zshrc`                | Shell with plugins                         |
+| [Starship](https://github.com/starship/starship)             | `~/.config/starship.toml` | Cross-shell prompt                         |
+| [Catppuccin Mocha](https://github.com/catppuccin/catppuccin) | —                         | Colorscheme across all tools               |
+| [JetBrainsMono Nerd Font](https://www.nerdfonts.com/)        | —                         | Monospace font with icons                  |
+| [GNU Stow](https://www.gnu.org/software/stow/)               | `~/.dotfiles`             | Dotfiles manager                           |
+
+### CLI Tools
+
+| Tool                                                    | Location              | Replaces | Description                           |
+| ------------------------------------------------------- | --------------------- | -------- | ------------------------------------- |
+| [eza](https://github.com/eza-community/eza)             | `~/.zshrc`            | `ls`     | Better ls with icons and git status   |
+| [bat](https://github.com/sharkdp/bat)                   | `~/.config/bat`       | `cat`    | Better cat with syntax highlighting   |
+| [zoxide](https://github.com/ajeetdsouza/zoxide)         | `~/.zshrc`            | `cd`     | Smart cd that learns your habits      |
+| [fzf](https://github.com/junegunn/fzf)                  | `~/.zshrc`            | —        | Fuzzy finder for files, history, dirs |
+| [fd](https://github.com/sharkdp/fd)                     | `~/.zshrc`            | `find`   | Better find                           |
+| [ripgrep](https://github.com/BurntSushi/ripgrep)        | `~/.zshrc`            | `grep`   | Better grep                           |
+| [tldr](https://github.com/dbrgn/tealdeer)               | `~/.zshrc`            | `man`    | Simplified man pages                  |
+| [yazi](https://github.com/sxyazi/yazi)                  | `~/.config/yazi`      | —        | Terminal file manager                 |
+| [btop](https://github.com/aristocratos/btop)            | `~/.config/btop`      | `top`    | System monitor                        |
+| [fastfetch](https://github.com/fastfetch-cli/fastfetch) | `~/.config/fastfetch` | —        | System info display                   |
+
+## Setup
+
+This repo uses [GNU Stow](https://www.gnu.org/software/stow/) to symlink dotfiles into the appropriate locations.
 
 > [!WARNING]
-> This repository will overwrite your existing configuration files. A backup is created automatically during installation.
+> This will overwrite your existing configuration files. A backup is created automatically during installation.
 
-## Prerequisites
+### Prerequisites
+
+> [!NOTE]
+> If you encounter errors during installation, refer to the tool's documentation.
 
 ```bash
 # macOS
@@ -30,8 +73,8 @@ brew install --cask kitty ghostty font-jetbrains-mono-nerd-font
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh  # rust
 
 # Linux (Ubuntu/Debian)
-sudo apt install git stow neovim tmux nodejs gcc make python3 python3-pip \
-                 golang ripgrep fzf fd-find eza zoxide bat lazygit
+sudo apt update && sudo apt install -y git stow neovim tmux nodejs python3 python3-pip golang \
+    ripgrep fzf fd-find eza zoxide bat yazi btop fastfetch tlrc lazygit gcc make
 curl -sS https://starship.rs/install.sh | sh  # starship
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh  # rust
 # Kitty:   https://sw.kovidgoyal.net/kitty/
@@ -42,7 +85,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh  # rust
 > [!NOTE]
 > `node`, `gcc`, `make`, `python3`, `go`, `rustc`, and `ripgrep` are required for Neovim LSP servers and DAP debuggers.
 
-## Quick Install
+### Quick Install
 
 ```bash
 git clone https://github.com/3p5ilon/dotfiles.git ~/.dotfiles
@@ -50,7 +93,7 @@ cd ~/.dotfiles
 ./install.sh
 ```
 
-## Manual Installation
+### Manual Installation
 
 ```bash
 git clone https://github.com/3p5ilon/dotfiles.git ~/.dotfiles
@@ -74,47 +117,19 @@ stow -vt ~ */
 # Install TPM and tmux plugins
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ~/.tmux/plugins/tpm/bin/install_plugins
+
+# Install zsh plugins
+git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 ```
 
-## What's Included
-
-### Core
-
-| Tool                                                         | Location                  | Description                                    |
-| ------------------------------------------------------------ | ------------------------- | ---------------------------------------------- |
-| [Neovim](https://github.com/neovim/neovim)                   | `~/.config/nvim`          | Text editor with LSP, treesitter, fzf-lua, DAP |
-| [Tmux](https://github.com/tmux/tmux)                         | `~/.tmux.conf`            | Terminal multiplexer                           |
-| [Kitty](https://github.com/kovidgoyal/kitty)                 | `~/.config/kitty`         | GPU-accelerated terminal                       |
-| [Ghostty](https://github.com/ghostty-org/ghostty)            | `~/.config/ghostty`       | Fast native terminal                           |
-| [Vim](https://github.com/vim/vim)                            | `~/.vimrc`                | Basic Vim config with essential plugins        |
-| [Zsh](https://www.zsh.org) + [Oh-My-Zsh](https://ohmyz.sh)   | `~/.zshrc`                | Shell with plugins                             |
-| [Starship](https://github.com/starship/starship)             | `~/.config/starship.toml` | Cross-shell prompt                             |
-| [Catppuccin Mocha](https://github.com/catppuccin/catppuccin) | —                         | Colorscheme across all tools                   |
-| [JetBrainsMono Nerd Font](https://www.nerdfonts.com/)        | —                         | Monospace font with icons                      |
-| [GNU Stow](https://www.gnu.org/software/stow/)               | `~/.dotfiles`             | Dotfiles manager                               |
-
-### CLI Tools
-
-| Tool                                                    | Location              | Replaces | Description                           |
-| ------------------------------------------------------- | --------------------- | -------- | ------------------------------------- |
-| [eza](https://github.com/eza-community/eza)             | `~/.zshrc`            | `ls`     | Better ls with icons and git status   |
-| [bat](https://github.com/sharkdp/bat)                   | `~/.config/bat`       | `cat`    | Better cat with syntax highlighting   |
-| [zoxide](https://github.com/ajeetdsouza/zoxide)         | `~/.zshrc`            | `cd`     | Smart cd that learns your habits      |
-| [fzf](https://github.com/junegunn/fzf)                  | `~/.zshrc`            | —        | Fuzzy finder for files, history, dirs |
-| [fd](https://github.com/sharkdp/fd)                     | `~/.zshrc`            | `find`   | Better find                           |
-| [ripgrep](https://github.com/BurntSushi/ripgrep)        | `~/.zshrc`            | `grep`   | Better grep                           |
-| [tldr](https://github.com/dbrgn/tealdeer)               | `~/.zshrc`            | `man`    | Simplified man pages                  |
-| [yazi](https://github.com/sxyazi/yazi)                  | `~/.config/yazi`      | —        | Terminal file manager                 |
-| [btop](https://github.com/aristocratos/btop)            | `~/.config/btop`      | `top`    | System monitor                        |
-| [fastfetch](https://github.com/fastfetch-cli/fastfetch) | `~/.config/fastfetch` | —        | System info display                   |
-
-## Post-Installation
+### Post-Installation
 
 - **Neovim**: Open `nvim` — plugins auto-install via lazy.nvim, then wait for Mason to finish
-- **Tmux**: Plugins are installed automatically — if missing, press `Ctrl-s + I` inside tmux
+- **Tmux**: Plugins are installed automatically — if missing, press `Ctrl-a + I` inside tmux
 - **Shell**: Restart your terminal or run `source ~/.zshrc`
 
-## Managing Configs
+### Managing Configs
 
 ```bash
 stow -vt ~ nvim       # stow a package
