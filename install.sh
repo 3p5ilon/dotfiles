@@ -92,6 +92,21 @@ fi
 echo "Installing tmux plugins..."
 ~/.tmux/plugins/tpm/bin/install_plugins
 
+# zsh plugins
+if [ ! -d "$HOME/.zsh/zsh-syntax-highlighting" ]; then
+    echo "Installing zsh-syntax-highlighting..."
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/zsh-syntax-highlighting
+else
+    echo "zsh-syntax-highlighting already installed."
+fi
+
+if [ ! -d "$HOME/.zsh/zsh-autosuggestions" ]; then
+    echo "Installing zsh-autosuggestions..."
+    git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+else
+    echo "zsh-autosuggestions already installed."
+fi
+
 echo ""
 echo "Dotfiles installation complete!"
 echo "Backup saved at: $BACKUP_DIR"
