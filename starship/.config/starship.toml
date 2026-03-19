@@ -9,8 +9,10 @@ $directory\
 [](bg:yellow fg:peach)\
 $git_branch\
 $git_status\
+$git_commit\
 [](fg:yellow bg:green)\
 $c\
+$cpp\
 $rust\
 $golang\
 $nodejs\
@@ -19,8 +21,11 @@ $java\
 $kotlin\
 $haskell\
 $python\
+$lua\
+$julia\
 [](fg:green bg:sapphire)\
 $docker_context\
+$conda\
 [](fg:sapphire bg:lavender)\
 $time\
 [ ](fg:lavender)\
@@ -114,8 +119,17 @@ format = '[[ $symbol $branch ](fg:crust bg:yellow)]($style)'
 style = "bg:yellow"
 format = '[[($all_status$ahead_behind )](fg:crust bg:yellow)]($style)'
 
+[git_commit] # (disabled)
+style = "bg:yellow"
+commit_hash_length = 4
+format = '[[ 󰜘 $hash $tag_symbol$tag ](fg:crust bg:yellow)]($style)'
+tag_symbol = ' '
+tag_disabled = false
+only_detached = false
+disabled = true
+
 [nodejs]
-symbol = ""
+symbol = ""
 style = "bg:green"
 format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
 
@@ -123,6 +137,12 @@ format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
 symbol = ""
 style = "bg:green"
 format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+
+[cpp]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+disabled = false # disabled by default
 
 [rust]
 symbol = ""
@@ -159,10 +179,25 @@ symbol = ""
 style = "bg:green"
 format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
 
+[lua]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+
+[julia]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+
 [docker_context]
 symbol = ""
 style = "bg:sapphire"
 format = '[[ $symbol( $context) ](fg:crust bg:sapphire)]($style)'
+
+[conda]
+symbol = ""
+style = "bg:sapphire"
+format = '[[ $symbol( $environment) ](fg:crust bg:sapphire)]($style)'
 
 [time]
 disabled = false
