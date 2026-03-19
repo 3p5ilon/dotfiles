@@ -11,12 +11,14 @@ return {
 			-- search
 			{ "<leader>fg", "<cmd>FzfLua live_grep<cr>", desc = "Live grep" },
 			{ "<leader>fw", "<cmd>FzfLua grep_cword<cr>", desc = "Grep word under cursor" },
+			{ "<leader>f/", "<cmd>FzfLua blines<cr>", desc = "Fuzzy find in buffer" },
+			{ "<leader>fl", "<cmd>FzfLua lgrep_curbuf<cr>", desc = "Live grep in buffer" },
 			-- LSP
 			{ "<leader>fs", "<cmd>FzfLua lsp_document_symbols<cr>", desc = "Document symbols" },
 			{ "<leader>fd", "<cmd>FzfLua diagnostics_document<cr>", desc = "Diagnostics" },
 			-- git
-			{ "<leader>gf", "<cmd>FzfLua git_files<cr>", desc = "Git files" },
-			{ "<leader>gc", "<cmd>FzfLua git_commits<cr>", desc = "Git commits" },
+			{ "<leader>fgf", "<cmd>FzfLua git_files<cr>", desc = "Git files" },
+			{ "<leader>fgc", "<cmd>FzfLua git_commits<cr>", desc = "Git commits" },
 		},
 		opts = function()
 			-- local actions = require("fzf-lua.actions")
