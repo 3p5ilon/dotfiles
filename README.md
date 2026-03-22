@@ -1,3 +1,4 @@
+````markdown
 # dotfiles
 
 <div align="center">
@@ -18,24 +19,24 @@
 
 My development environment for macOS and Linux, managed with GNU Stow for easy deployment across machines.
 
-Feel free to use as inspiration, but make sure you understand what each config does before copying. When in doubt, Google it or ask AI.
+> Feel free to use as inspiration, but make sure you understand what each config does before copying. When in doubt, Google it or ask AI.
 
 ## What's Included
 
 ### Core
 
-| Tool                                                         | Location                  | Description                                |
-| ------------------------------------------------------------ | ------------------------- | ------------------------------------------ |
-| [Neovim](https://github.com/neovim/neovim)                   | `~/.config/nvim`          | Text editor with LSP, treesitter, fzf, DAP |
-| [Tmux](https://github.com/tmux/tmux)                         | `~/.tmux.conf`            | Terminal multiplexer                       |
-| [Kitty](https://github.com/kovidgoyal/kitty)                 | `~/.config/kitty`         | GPU-accelerated terminal                   |
-| [Ghostty](https://github.com/ghostty-org/ghostty)            | `~/.config/ghostty`       | Fast native terminal                       |
-| [Vim](https://github.com/vim/vim)                            | `~/.vimrc`                | Basic Vim config with essential plugins    |
-| [Zsh](https://www.zsh.org)                                   | `~/.zshrc`                | Shell with plugins                         |
-| [Starship](https://github.com/starship/starship)             | `~/.config/starship.toml` | Cross-shell prompt                         |
-| [Catppuccin Mocha](https://github.com/catppuccin/catppuccin) | —                         | Colorscheme across all tools               |
-| [JetBrainsMono Nerd Font](https://www.nerdfonts.com/)        | —                         | Monospace font with icons                  |
-| [GNU Stow](https://www.gnu.org/software/stow/)               | `~/.dotfiles`             | Dotfiles manager                           |
+| Tool                                                         | Location                  | Description                                                                   |
+| ------------------------------------------------------------ | ------------------------- | ----------------------------------------------------------------------------- |
+| [Neovim](https://github.com/neovim/neovim)                   | `~/.config/nvim`          | Text editor with LSP, treesitter, fzf, DAP                                    |
+| [Tmux](https://github.com/tmux/tmux)                         | `~/.tmux.conf`            | Terminal multiplexer                                                          |
+| [Kitty](https://github.com/kovidgoyal/kitty)                 | `~/.config/kitty`         | GPU-accelerated terminal                                                      |
+| [Ghostty](https://github.com/ghostty-org/ghostty)            | `~/.config/ghostty`       | Fast native terminal                                                          |
+| [Vim](https://github.com/vim/vim)                            | `~/.vimrc`                | Basic Vim config with essential plugins                                       |
+| [Zsh](https://www.zsh.org)                                   | `~/.zshrc`                | Shell with [Zinit plugin manager](https://github.com/zdharma-continuum/zinit) |
+| [Starship](https://github.com/starship/starship)             | `~/.config/starship.toml` | Cross-shell prompt                                                            |
+| [Catppuccin Mocha](https://github.com/catppuccin/catppuccin) | —                         | Colorscheme across all tools                                                  |
+| [JetBrainsMono Nerd Font](https://www.nerdfonts.com/)        | —                         | Monospace font with icons                                                     |
+| [GNU Stow](https://www.gnu.org/software/stow/)               | `~/.dotfiles`             | Dotfiles manager                                                              |
 
 ### CLI Tools
 
@@ -78,6 +79,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh  # rust
 # Ghostty: https://ghostty.org/download
 # Font:    https://www.nerdfonts.com/font-downloads (JetBrainsMono Nerd Font)
 ```
+````
 
 > [!NOTE]
 > If you encounter errors during installation, refer to the package's documentation.
@@ -111,23 +113,19 @@ rm -rf ~/.config/nvim ~/.config/kitty ~/.config/ghostty \
        ~/.config/bat ~/.config/btop ~/.config/fastfetch ~/.config/yazi \
        ~/.tmux.conf ~/.zshrc ~/.vimrc ~/.config/starship.toml
 
-# Create symlinks (*/ stows directories only, files are safe)
+# Create symlinks
 stow -vt ~ */
 
 # Install TPM and tmux plugins
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ~/.tmux/plugins/tpm/bin/install_plugins
-
-# Install zsh plugins
-git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/zsh-syntax-highlighting
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 ```
 
 ### Post-Installation
 
 - **Neovim**: Open `nvim` — plugins auto-install via lazy.nvim, then wait for Mason to finish
-- **Tmux**: Plugins are installed automatically — if missing, press `Ctrl-a + I` inside tmux
-- **Shell**: Restart your terminal or run `source ~/.zshrc`
+- **Tmux**: Plugins are installed automatically via TPM — if missing, press `Ctrl-a + I` inside tmux
+- **Shell**: Restart your terminal or run `source ~/.zshrc` — Zinit will auto-install all Zsh plugins on first run
 
 ### Managing Configs
 
