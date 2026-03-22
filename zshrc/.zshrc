@@ -53,6 +53,11 @@ alias lt="eza --tree --icons"
 alias l='eza -l --group-directories-first --icons'
 alias ll="eza -la --icons --git --group-directories-first"
 
+# fd on Linux is installed as 'fdfind'
+if ! command -v fd &> /dev/null && command -v fdfind &> /dev/null; then
+    alias fd=fdfind
+fi
+
 # zoxide - smarter cd
 eval "$(zoxide init zsh)"
 alias cd="z"
