@@ -1,4 +1,3 @@
-````markdown
 # dotfiles
 
 <div align="center">
@@ -79,7 +78,6 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh  # rust
 # Ghostty: https://ghostty.org/download
 # Font:    https://www.nerdfonts.com/font-downloads (JetBrainsMono Nerd Font)
 ```
-````
 
 > [!NOTE]
 > If you encounter errors during installation, refer to the package's documentation.
