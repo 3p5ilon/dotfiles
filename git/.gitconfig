@@ -3,24 +3,21 @@
 	path = ~/.config/delta/themes/catppuccin.gitconfig
 
 [user]
-	email = jiraiyahiddenleaf27@gmail.com
 	name = epsilon
+	email = jiraiyahiddenleaf27@gmail.com
 
 [github]
 	user = 3p5ilon
 
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
-
 [core]
-	excludesfile = ~/.gitignore_global
 	editor = nvim
 	pager = delta
+	excludesfile = ~/.gitignore_global
 	autocrlf = input
 	whitespace = trailing-space,space-before-tab
+
+[init]
+	defaultBranch = main
 
 [interactive]
 	diffFilter = delta --color-only
@@ -28,53 +25,53 @@
 [delta]
 	features = catppuccin-mocha
 	navigate = true
-  line-numbers = true
-  ; side-by-side = true
-
-[alias]
-	st = status -sb
-	co = checkout
-	sw = switch
-	br = branch
-	c = commit --short
-	p = push
-	pf = push --force-with-lease
-	l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=short
-	ll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --all
-	uncommit = reset --soft HEAD^
-	unstage = reset HEAD --
-	amend = commit --amend --no-edit
-
-[merge]
-	conflictstyle = zdiff3
+	line-numbers = true
+	; side-by-side = true
 
 [diff]
 	algorithm = histogram
 	colorMoved = default
 
-[push]
-	autoSetupRemote = true
+[merge]
+	conflictstyle = zdiff3
 
 [fetch]
 	prune = true
 
+[push]
+	autoSetupRemote = true
+
+[pull]
+	rebase = true
+
+[rebase]
+	autoStash = true
+
 [rerere]
 	enabled = true
-
-[init]
-	defaultBranch = main
 
 [commit]
 	verbose = true
 
-[credential]
-	helper = cache --timeout=3600
-
-[credential "https://github.com"]
-	helper = !/usr/bin/gh auth git-credential
-
-[url "ssh://git@github.com/"]
-	insteadOf = https://github.com/
-
 [help]
 	autocorrect = prompt
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[alias]
+	st  = status -sb
+	sw  = switch
+	br  = branch
+	co  = checkout
+	c   = commit
+	ca  = commit --amend --no-edit
+	p   = push
+	pf  = push --force-with-lease
+	l   = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	la  = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
+	uncommit = reset --soft HEAD^
+	unstage  = restore --staged
