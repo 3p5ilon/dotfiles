@@ -130,12 +130,6 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 - **Neovim**: Open `nvim` — plugins auto-install via lazy.nvim, then wait for Mason to finish
 - **Tmux**: Plugins are installed automatically via TPM — if missing, press `Ctrl-a + I` inside tmux
 - **Shell**: Restart your terminal or run `source ~/.zshrc` — Zinit will auto-install all Zsh plugins on first run
-
-### Post-Installation
-
-- **Neovim**: Open `nvim` — plugins auto-install via lazy.nvim, then wait for Mason to finish
-- **Tmux**: Plugins are installed automatically via TPM — if missing, press `Ctrl-a + I` inside tmux
-- **Shell**: Restart your terminal or run `source ~/.zshrc` — Zinit will auto-install all Zsh plugins on first run
 - **Git**: Update `[user]` and `[github]` in `git/.gitconfig` with your own details
 
 ### Managing Configs
