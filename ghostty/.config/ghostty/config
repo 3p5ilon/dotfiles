@@ -3,3 +3,5 @@ font-size = 15
 font-family = "JetBrainsMono Nerd Font"
 background-opacity = 0.95
 gtk-titlebar = false
+
+custom-shader = ~/.config/ghostty/shaders/cursor.glsl
