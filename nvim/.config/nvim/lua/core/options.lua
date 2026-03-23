@@ -24,6 +24,7 @@ vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.o.winborder = "rounded"
+vim.opt.fillchars = { eob = " " }
 
 -- Behavior
 vim.opt.clipboard = "unnamedplus"
