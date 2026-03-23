@@ -1,0 +1,33 @@
+# OS junk
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editor files
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.sublime-*
+
+# Shell history
+.zsh_history
+.bash_history
+
+# Temp files
+*.tmp
+*.log
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Cache
+__pycache__/
+*.pyc
+.npm/
