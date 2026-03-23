@@ -1,7 +1,6 @@
 #!/bin/bash
 # Dotfiles installer — creates symlinks and backs up existing configs
 set -e
-
 echo "Setting up dotfiles..."
 
 # Dependency checks
@@ -21,8 +20,10 @@ warn_missing() {
 # Core
 warn_missing "nvim"      "install neovim"
 warn_missing "git"       "install git"
+warn_missing "delta"     "install delta: brew install git-delta / cargo install git-delta"
 warn_missing "tmux"      "install tmux"
 warn_missing "starship"  "install starship"
+warn_missing "lazygit"   "install lazygit"
 
 # Neovim LSP + DAP dependencies
 warn_missing "node"      "required for LSP servers (ts_ls, eslint, marksman)"
@@ -44,25 +45,27 @@ warn_missing "yazi"      "install yazi"
 warn_missing "btop"      "install btop"
 warn_missing "fastfetch" "install fastfetch"
 warn_missing "tldr"      "install tlrc"
-warn_missing "lazygit"   "install lazygit"
 
 # Backup
 BACKUP_DIR="$HOME/dotfiles-backup-$(date +%Y%m%d-%H%M%S)"
 mkdir -p "$BACKUP_DIR"
 echo "Creating backup at: $BACKUP_DIR"
-echo "Backing up current configs..."
 
-[ -f "$HOME/.zshrc" ]                && cp "$HOME/.zshrc" "$BACKUP_DIR/"
-[ -f "$HOME/.vimrc" ]                && cp "$HOME/.vimrc" "$BACKUP_DIR/"
-[ -f "$HOME/.tmux.conf" ]            && cp "$HOME/.tmux.conf" "$BACKUP_DIR/"
-[ -f "$HOME/.config/starship.toml" ] && cp "$HOME/.config/starship.toml" "$BACKUP_DIR/"
-[ -d "$HOME/.config/nvim" ]          && cp -r "$HOME/.config/nvim" "$BACKUP_DIR/"
-[ -d "$HOME/.config/kitty" ]         && cp -r "$HOME/.config/kitty" "$BACKUP_DIR/"
-[ -d "$HOME/.config/ghostty" ]       && cp -r "$HOME/.config/ghostty" "$BACKUP_DIR/"
-[ -d "$HOME/.config/bat" ]           && cp -r "$HOME/.config/bat" "$BACKUP_DIR/"
-[ -d "$HOME/.config/btop" ]          && cp -r "$HOME/.config/btop" "$BACKUP_DIR/"
-[ -d "$HOME/.config/fastfetch" ]     && cp -r "$HOME/.config/fastfetch" "$BACKUP_DIR/"
-[ -d "$HOME/.config/yazi" ]          && cp -r "$HOME/.config/yazi" "$BACKUP_DIR/"
+echo "Backing up current configs..."
+[ -f "$HOME/.zshrc" ]                  && cp "$HOME/.zshrc" "$BACKUP_DIR/"
+[ -f "$HOME/.vimrc" ]                  && cp "$HOME/.vimrc" "$BACKUP_DIR/"
+[ -f "$HOME/.tmux.conf" ]              && cp "$HOME/.tmux.conf" "$BACKUP_DIR/"
+[ -f "$HOME/.gitconfig" ]              && cp "$HOME/.gitconfig" "$BACKUP_DIR/"
+[ -f "$HOME/.gitignore_global" ]       && cp "$HOME/.gitignore_global" "$BACKUP_DIR/"
+[ -f "$HOME/.config/starship.toml" ]   && cp "$HOME/.config/starship.toml" "$BACKUP_DIR/"
+[ -d "$HOME/.config/nvim" ]            && cp -r "$HOME/.config/nvim" "$BACKUP_DIR/"
+[ -d "$HOME/.config/kitty" ]           && cp -r "$HOME/.config/kitty" "$BACKUP_DIR/"
+[ -d "$HOME/.config/ghostty" ]         && cp -r "$HOME/.config/ghostty" "$BACKUP_DIR/"
+[ -d "$HOME/.config/bat" ]             && cp -r "$HOME/.config/bat" "$BACKUP_DIR/"
+[ -d "$HOME/.config/btop" ]            && cp -r "$HOME/.config/btop" "$BACKUP_DIR/"
+[ -d "$HOME/.config/fastfetch" ]       && cp -r "$HOME/.config/fastfetch" "$BACKUP_DIR/"
+[ -d "$HOME/.config/yazi" ]            && cp -r "$HOME/.config/yazi" "$BACKUP_DIR/"
+[ -d "$HOME/.config/delta" ]           && cp -r "$HOME/.config/delta" "$BACKUP_DIR/"
 
 echo "Removing existing configs..."
 rm -rf "$HOME/.config/nvim" \
@@ -72,9 +75,12 @@ rm -rf "$HOME/.config/nvim" \
        "$HOME/.config/btop" \
        "$HOME/.config/fastfetch" \
        "$HOME/.config/yazi" \
+       "$HOME/.config/delta" \
        "$HOME/.tmux.conf" \
        "$HOME/.zshrc" \
        "$HOME/.vimrc" \
+       "$HOME/.gitconfig" \
+       "$HOME/.gitignore_global" \
        "$HOME/.config/starship.toml"
 
 echo "Creating symlinks..."
@@ -101,3 +107,4 @@ echo "  1. Restart your terminal or run: source ~/.zshrc"
 echo "     → Zinit will auto-install all Zsh plugins on first run"
 echo "  2. Open Neovim — plugins and LSP servers will install automatically"
 echo "  3. Wait for Mason to finish installing LSP servers and formatters"
+echo "  4. Update [user] and [github] in git/.gitconfig with your own details"
