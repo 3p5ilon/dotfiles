@@ -24,18 +24,20 @@ My development environment for macOS and Linux, managed with GNU Stow for easy d
 
 ### Core
 
-| Tool                                                         | Location                  | Description                                                                   |
-| ------------------------------------------------------------ | ------------------------- | ----------------------------------------------------------------------------- |
-| [Neovim](https://github.com/neovim/neovim)                   | `~/.config/nvim`          | Text editor with LSP, treesitter, fzf, DAP                                    |
-| [Tmux](https://github.com/tmux/tmux)                         | `~/.tmux.conf`            | Terminal multiplexer                                                          |
-| [Kitty](https://github.com/kovidgoyal/kitty)                 | `~/.config/kitty`         | GPU-accelerated terminal                                                      |
-| [Ghostty](https://github.com/ghostty-org/ghostty)            | `~/.config/ghostty`       | Fast native terminal                                                          |
-| [Vim](https://github.com/vim/vim)                            | `~/.vimrc`                | Basic Vim config with essential plugins                                       |
-| [Zsh](https://www.zsh.org)                                   | `~/.zshrc`                | Shell with [Zinit plugin manager](https://github.com/zdharma-continuum/zinit) |
-| [Starship](https://github.com/starship/starship)             | `~/.config/starship.toml` | Cross-shell prompt                                                            |
-| [Catppuccin Mocha](https://github.com/catppuccin/catppuccin) | —                         | Colorscheme across all tools                                                  |
-| [JetBrainsMono Nerd Font](https://www.nerdfonts.com/)        | —                         | Monospace font with icons                                                     |
-| [GNU Stow](https://www.gnu.org/software/stow/)               | `~/.dotfiles`             | Dotfiles manager                                                              |
+| Tool                                                         | Location                  | Description                                                                        |
+| ------------------------------------------------------------ | ------------------------- | ---------------------------------------------------------------------------------- |
+| [Neovim](https://github.com/neovim/neovim)                   | `~/.config/nvim`          | Text editor with LSP, treesitter, fzf, DAP                                         |
+| [Tmux](https://github.com/tmux/tmux)                         | `~/.tmux.conf`            | Terminal multiplexer                                                               |
+| [Kitty](https://github.com/kovidgoyal/kitty)                 | `~/.config/kitty`         | GPU-accelerated terminal                                                           |
+| [Ghostty](https://github.com/ghostty-org/ghostty)            | `~/.config/ghostty`       | Fast native terminal                                                               |
+| [Vim](https://github.com/vim/vim)                            | `~/.vimrc`                | Basic Vim config with essential plugins                                            |
+| [Zsh](https://www.zsh.org)                                   | `~/.zshrc`                | Shell with [Zinit plugin manager](https://github.com/zdharma-continuum/zinit)      |
+| [Starship](https://github.com/starship/starship)             | `~/.config/starship.toml` | Cross-shell prompt                                                                 |
+| [Git](https://git-scm.com)                                   | `~/.gitconfig`            | Git config with [delta](https://github.com/dandavison/delta) and sensible defaults |
+| [Delta](https://github.com/dandavison/delta)                 | `~/.config/delta`         | Syntax-highlighted git diffs with Catppuccin theme                                 |
+| [Catppuccin Mocha](https://github.com/catppuccin/catppuccin) | —                         | Colorscheme across all tools                                                       |
+| [JetBrainsMono Nerd Font](https://www.nerdfonts.com/)        | —                         | Monospace font with icons                                                          |
+| [GNU Stow](https://www.gnu.org/software/stow/)               | `~/.dotfiles`             | Dotfiles manager                                                                   |
 
 ### CLI Tools
 
@@ -51,6 +53,8 @@ My development environment for macOS and Linux, managed with GNU Stow for easy d
 | [yazi](https://github.com/sxyazi/yazi)                  | `~/.config/yazi`      | —        | Terminal file manager                 |
 | [btop](https://github.com/aristocratos/btop)            | `~/.config/btop`      | `top`    | System monitor                        |
 | [fastfetch](https://github.com/fastfetch-cli/fastfetch) | `~/.config/fastfetch` | —        | System info display                   |
+| [lazygit](https://github.com/jesseduffield/lazygit)     | `~/.zshrc`            | —        | Terminal UI for git                   |
+| [delta](https://github.com/dandavison/delta)            | `~/.gitconfig`        | —        | Better git diff pager                 |
 
 ## Setup
 
@@ -65,7 +69,7 @@ This repo uses [GNU Stow](https://www.gnu.org/software/stow/) to symlink dotfile
 # macOS
 xcode-select --install  # gcc, make, git, python3
 brew install git stow neovim tmux starship node python go \
-             ripgrep fzf fd eza zoxide bat yazi btop fastfetch tlrc lazygit
+             ripgrep fzf fd eza zoxide bat yazi btop fastfetch tlrc lazygit git-delta
 brew install --cask kitty ghostty font-jetbrains-mono-nerd-font
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh  # rust
 
@@ -74,6 +78,7 @@ sudo apt update && sudo apt install -y git stow neovim tmux nodejs python3 pytho
     ripgrep fzf fd-find eza zoxide bat yazi btop fastfetch tlrc lazygit gcc make
 curl -sS https://starship.rs/install.sh | sh  # starship
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh  # rust
+cargo install git-delta  # delta
 # Kitty:   https://sw.kovidgoyal.net/kitty/
 # Ghostty: https://ghostty.org/download
 # Font:    https://www.nerdfonts.com/font-downloads (JetBrainsMono Nerd Font)
@@ -101,15 +106,16 @@ cd ~/.dotfiles
 
 # Backup existing configs
 mkdir -p ~/dotfiles-backup
-cp ~/.zshrc ~/.vimrc ~/.tmux.conf ~/dotfiles-backup/ 2>/dev/null
+cp ~/.zshrc ~/.vimrc ~/.tmux.conf ~/.gitconfig ~/.gitignore_global ~/dotfiles-backup/ 2>/dev/null
 cp -r ~/.config/nvim ~/.config/kitty ~/.config/ghostty ~/dotfiles-backup/ 2>/dev/null
-cp -r ~/.config/bat ~/.config/btop ~/.config/fastfetch ~/.config/yazi ~/dotfiles-backup/ 2>/dev/null
+cp -r ~/.config/bat ~/.config/btop ~/.config/fastfetch ~/.config/yazi ~/.config/delta ~/dotfiles-backup/ 2>/dev/null
 cp ~/.config/starship.toml ~/dotfiles-backup/ 2>/dev/null
 
 # Remove originals
 rm -rf ~/.config/nvim ~/.config/kitty ~/.config/ghostty \
-       ~/.config/bat ~/.config/btop ~/.config/fastfetch ~/.config/yazi \
-       ~/.tmux.conf ~/.zshrc ~/.vimrc ~/.config/starship.toml
+       ~/.config/bat ~/.config/btop ~/.config/fastfetch ~/.config/yazi ~/.config/delta \
+       ~/.tmux.conf ~/.zshrc ~/.vimrc ~/.gitconfig ~/.gitignore_global \
+       ~/.config/starship.toml
 
 # Create symlinks
 stow -vt ~ */
@@ -124,6 +130,13 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 - **Neovim**: Open `nvim` — plugins auto-install via lazy.nvim, then wait for Mason to finish
 - **Tmux**: Plugins are installed automatically via TPM — if missing, press `Ctrl-a + I` inside tmux
 - **Shell**: Restart your terminal or run `source ~/.zshrc` — Zinit will auto-install all Zsh plugins on first run
+
+### Post-Installation
+
+- **Neovim**: Open `nvim` — plugins auto-install via lazy.nvim, then wait for Mason to finish
+- **Tmux**: Plugins are installed automatically via TPM — if missing, press `Ctrl-a + I` inside tmux
+- **Shell**: Restart your terminal or run `source ~/.zshrc` — Zinit will auto-install all Zsh plugins on first run
+- **Git**: Update `[user]` and `[github]` in `git/.gitconfig` with your own details
 
 ### Managing Configs
 
