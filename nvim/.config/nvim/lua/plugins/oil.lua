@@ -18,8 +18,46 @@ return {
 				border = "single",
 			},
 			keymaps = {
-				["<leader>y"] = { "actions.copy_to_system_clipboard", mode = { "n", "v" } },
-				["<leader>p"] = "actions.paste_from_system_clipboard",
+				["<leader>y"] = {
+					"actions.copy_to_system_clipboard",
+					mode = { "n", "v" },
+					desc = "Copy to system clipboard",
+				},
+
+				["<leader>p"] = {
+					"actions.paste_from_system_clipboard",
+					desc = "Paste from system clipboard",
+				},
+
+				-- ["yp"] = {
+				-- 	function()
+				-- 		local oil = require("oil")
+				-- 		local entry = oil.get_cursor_entry()
+				-- 		if not entry then
+				-- 			return
+				-- 		end
+				--
+				-- 		local path = oil.get_current_dir() .. entry.name
+				-- 		vim.fn.setreg("+", path)
+				-- 		vim.notify("Copied path: " .. path, vim.log.levels.INFO)
+				-- 	end,
+				-- 	desc = "Copy absolute path",
+				-- },
+				--
+				-- ["yr"] = {
+				-- 	function()
+				-- 		local oil = require("oil")
+				-- 		local entry = oil.get_cursor_entry()
+				-- 		if not entry then
+				-- 			return
+				-- 		end
+				--
+				-- 		local path = vim.fn.fnamemodify(oil.get_current_dir() .. entry.name, ":.")
+				-- 		vim.fn.setreg("+", path)
+				-- 		vim.notify("Copied relative path: " .. path, vim.log.levels.INFO)
+				-- 	end,
+				-- 	desc = "Copy relative path",
+				-- },
 			},
 		},
 	},
