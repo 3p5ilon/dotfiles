@@ -29,35 +29,35 @@ return {
 					desc = "Paste from system clipboard",
 				},
 
-				-- ["yp"] = {
-				-- 	function()
-				-- 		local oil = require("oil")
-				-- 		local entry = oil.get_cursor_entry()
-				-- 		if not entry then
-				-- 			return
-				-- 		end
-				--
-				-- 		local path = oil.get_current_dir() .. entry.name
-				-- 		vim.fn.setreg("+", path)
-				-- 		vim.notify("Copied path: " .. path, vim.log.levels.INFO)
-				-- 	end,
-				-- 	desc = "Copy absolute path",
-				-- },
-				--
-				-- ["yr"] = {
-				-- 	function()
-				-- 		local oil = require("oil")
-				-- 		local entry = oil.get_cursor_entry()
-				-- 		if not entry then
-				-- 			return
-				-- 		end
-				--
-				-- 		local path = vim.fn.fnamemodify(oil.get_current_dir() .. entry.name, ":.")
-				-- 		vim.fn.setreg("+", path)
-				-- 		vim.notify("Copied relative path: " .. path, vim.log.levels.INFO)
-				-- 	end,
-				-- 	desc = "Copy relative path",
-				-- },
+				["yp"] = {
+					function()
+						local oil = require("oil")
+						local entry = oil.get_cursor_entry()
+						if not entry then
+							return
+						end
+
+						local path = oil.get_current_dir() .. entry.name
+						vim.fn.setreg("+", path)
+						vim.notify("Copied path: " .. path, vim.log.levels.INFO)
+					end,
+					desc = "Copy absolute path",
+				},
+
+				["yr"] = {
+					function()
+						local oil = require("oil")
+						local entry = oil.get_cursor_entry()
+						if not entry then
+							return
+						end
+
+						local path = vim.fn.fnamemodify(oil.get_current_dir() .. entry.name, ":.")
+						vim.fn.setreg("+", path)
+						vim.notify("Copied relative path: " .. path, vim.log.levels.INFO)
+					end,
+					desc = "Copy relative path",
+				},
 			},
 		},
 	},
