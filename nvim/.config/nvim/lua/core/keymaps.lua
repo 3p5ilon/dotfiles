@@ -37,6 +37,9 @@ map("v", "<leader>y", '"+y', { desc = "copy to system" })
 map("n", "<leader>p", '"+p', { desc = "paste from system" })
 map("x", "<leader>p", '"_dp', { desc = "paste (no overwrite)" })
 
+-- Escape insert mode
+map("i", "jk", "<esc>", { desc = "exit insert mode" })
+
 -- Terminal
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "exit terminal" })
 

@@ -20,6 +20,9 @@ noremap <Leader>s :source ~/.vimrc<CR>
 noremap <Leader>w :w<CR>
 noremap <Leader>t :tabnew<CR>
 
+" Escape insert mode
+inoremap jk <Esc>
+
 " Function keys
 noremap <F1> <ESC>:tabprev<CR>
 vnoremap <F1> <ESC>:tabprev<CR>
