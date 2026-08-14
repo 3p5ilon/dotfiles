@@ -61,7 +61,7 @@ return {
 
 			require("lualine").setup({
 				options = {
-					theme = "catppuccin-nvim",
+					theme = "auto",
 					globalstatus = true,
 					icons_enabled = true,
 					component_separators = s.component,

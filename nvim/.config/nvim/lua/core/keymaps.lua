@@ -44,4 +44,4 @@ map("i", "jk", "<esc>", { desc = "exit insert mode" })
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "exit terminal" })
 
 -- Load cp utilities
-require("utils.cp")
+-- require("utils.cp")

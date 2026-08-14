@@ -26,7 +26,7 @@ require("lazy").setup({
 		{ import = "plugins" },
 	},
 	-- Colorscheme for plugin installation
-	install = { colorscheme = { "catppuccin-nvim" } },
+	install = { colorscheme = { "catppuccin" } },
 	checker = {
 		enabled = true, -- check for plugin updates
 		notify = false, -- notify on update

@@ -61,4 +61,11 @@ return {
 			},
 		},
 	},
+
+	-- Git status and LSP diagnostics for oil.nvim
+	{
+		"3p5ilon/oil-status.nvim",
+		dependencies = { "stevearc/oil.nvim" },
+		opts = {},
+	},
 }

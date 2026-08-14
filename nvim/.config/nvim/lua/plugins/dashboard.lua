@@ -31,17 +31,26 @@ return {
 			}
 			dashboard.section.buttons.opts.hl = "Keyword"
 
-			-- Footer with string formatting
-			dashboard.section.footer.val = function()
-				local stats = require("lazy").stats()
-				local ms = string.format("%.2f", stats.startuptime)
-				local plugins = "󱉧 " .. stats.loaded .. "/" .. stats.count
-				local load_time = "󰅐 " .. ms .. "ms"
-				local version = " " .. vim.version().major .. "." .. vim.version().minor
-
-				return "  " .. plugins .. "  │  " .. load_time .. "  │  " .. version
-			end
+			-- Footer
+			dashboard.section.footer.val = ""
 			dashboard.section.footer.opts.hl = "Comment"
+
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "LazyVimStarted",
+				once = true,
+				callback = function()
+					local stats = require("lazy").stats()
+					local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
+
+					local plugins = "󱉧 " .. stats.loaded .. "/" .. stats.count
+					local load_time = "󰅐 " .. ms .. "ms"
+					local version = " " .. vim.version().major .. "." .. vim.version().minor
+
+					dashboard.section.footer.val = "  " .. plugins .. "  │  " .. load_time .. "  │  " .. version
+
+					pcall(vim.cmd.AlphaRedraw)
+				end,
+			})
 
 			-- Centering logic
 			local function get_padding()
@@ -65,7 +74,6 @@ return {
 				group = group,
 				pattern = "alpha",
 				callback = function()
-					vim.opt_local.laststatus = 0
 					vim.opt_local.showtabline = 0
 					vim.opt_local.signcolumn = "no"
 					vim.opt_local.modifiable = false
