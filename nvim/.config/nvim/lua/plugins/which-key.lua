@@ -2,21 +2,22 @@ return {
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
-		opts = {},
-		config = function(_, opts)
-			local wk = require("which-key")
-			wk.setup(opts)
-
-			wk.add({
-				-- groups
+		opts = {
+			preset = "helix",
+			spec = {
 				{ "<leader>f", group = "find" },
 				{ "<leader>g", group = "git" },
-
-				{ "<leader>w", proxy = "<c-w>", group = "windows" },
+				{
+					"<leader>w",
+					proxy = "<c-w>",
+					group = "windows",
+					expand = function()
+						return require("which-key.extras").expand.win()
+					end,
+				},
 				{ "<leader>q", "<cmd>q<cr>", desc = "Quit" },
 				{ "<leader>Q", "<cmd>qa<cr>", desc = "Quit all" },
 				{ "<leader>t", group = "test" },
-
 				{
 					"<leader>b",
 					group = "buffers",
@@ -24,7 +25,7 @@ return {
 						return require("which-key.extras").expand.buf()
 					end,
 				},
-			})
-		end,
+			},
+		},
 	},
 }
