@@ -23,6 +23,7 @@ vim.opt.cursorline = true
 vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 8
 vim.opt.signcolumn = "yes"
+vim.opt.laststatus = 3
 vim.o.winborder = "rounded"
 vim.opt.fillchars = { eob = " " }
 

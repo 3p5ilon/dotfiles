@@ -62,12 +62,15 @@ return {
 			require("lualine").setup({
 				options = {
 					theme = "auto",
-					globalstatus = true,
+					-- globalstatus = true,
 					icons_enabled = true,
 					component_separators = s.component,
 					section_separators = s.section,
 					disabled_filetypes = {
 						statusline = { "dashboard", "alpha" },
+					},
+					extensions = {
+						"lazy",
 					},
 				},
 
