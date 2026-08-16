@@ -43,5 +43,8 @@ map("i", "jk", "<esc>", { desc = "exit insert mode" })
 -- Terminal
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "exit terminal" })
 
+-- LSP
+map("n", "<leader>cr", vim.lsp.buf.rename, { desc = "code rename" })
+
 -- Load cp utilities
 -- require("utils.cp")
