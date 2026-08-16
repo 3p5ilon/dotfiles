@@ -1,0 +1,39 @@
+[theme]
+name = "catppuccin"
+
+[terminal]
+shell_mode = "auto"
+new_cwd = "follow"
+
+[keys]
+# tmux: prefix
+prefix = "ctrl+a"
+
+# tmux: pane navigation
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+
+# tmux: windows
+new_tab = "prefix+c"
+
+# tmux: splits
+split_vertical = "prefix+v"
+split_horizontal = "prefix+minus"
+
+# tmux: pane controls
+zoom = "prefix+z"
+resize_mode = "prefix+r"
+last_pane = "prefix+tab"
+
+# tmux: sidebar
+toggle_sidebar = "prefix+b"
+
+# tmux: popup
+[[keys.command]]
+key = "prefix+t"
+type = "popup"
+command = "$SHELL"
+width = "80%"
+height = "80%"
