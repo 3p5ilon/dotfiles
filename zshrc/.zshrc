@@ -1,9 +1,3 @@
-# History
-HISTSIZE=5000
-HISTFILE=~/.zsh_history
-SAVEHIST=$HISTSIZE
-setopt appendhistory sharehistory hist_ignore_all_dups
-
 # Zinit - plugin manager (auto-installs if missing)
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 if [ ! -d "$ZINIT_HOME" ]; then
@@ -14,30 +8,56 @@ source "${ZINIT_HOME}/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
+# Zsh plugins
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+
+ZVM_ZLE_KEYMAP_SELECT=false
+zinit light jeffreytse/zsh-vi-mode
+
+# Configure 'jk' keybinding for zsh-vi-mode
+function zvm_after_init() {
+  zvm_bindkey viins 'jk' zvm_exit_insert_mode
+}
+
+# Key sequence timeout
+KEYTIMEOUT=15
+
 # Starship prompt (auto-installs from GitHub releases via Zinit)
 zinit ice as"command" from"gh-r" \
           atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
           atpull"%atclone" src"init.zsh"
 zinit light starship/starship
 
-# Zsh plugins
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
+# Add in snippets
+# zinit snippet OMZL::git.zsh
+# zinit snippet OMZP::git
+# zinit snippet OMZP::sudo
+# zinit snippet OMZP::archlinux
+# zinit snippet OMZP::command-not-found
+#
+# zinit cdreplay -q
+
+# History
+HISTSIZE=5000
+HISTFILE=~/.zsh_history
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_find_no_dups
 
 # Editor
 export EDITOR='nvim'
 export VISUAL='nvim'
 
-# Path
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    export PATH="/opt/homebrew/bin:$PATH"
-    alias g++="/opt/homebrew/bin/g++-15"
-fi
-export PATH="$HOME/.local/bin:$PATH"
-
 # Better completions
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # Aliases
 alias c='clear'
@@ -106,7 +126,13 @@ _fzf_comprun() {
     esac
 }
 
-# Conda
+# Path
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    export PATH="/opt/homebrew/bin:$PATH"
+    alias g++="/opt/homebrew/bin/g++-15"
+fi
+export PATH="$HOME/.local/bin:$PATH"
+
 __conda_setup="$("$HOME/anaconda3/bin/conda" 'shell.zsh' 'hook' 2>/dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
@@ -119,7 +145,6 @@ else
 fi
 unset __conda_setup
 
-# Bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
