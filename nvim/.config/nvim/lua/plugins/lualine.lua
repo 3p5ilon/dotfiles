@@ -108,8 +108,8 @@ return {
 								hint = "󰌵 ",
 							},
 						},
-						"encoding",
-						"fileformat",
+						-- "encoding",
+						-- "fileformat",
 						"filetype",
 					},
 
@@ -124,7 +124,7 @@ return {
 					},
 				},
 
-				extensions = { "neo-tree", "oil", "lazy" },
+				extensions = { "neo-tree", "oil", "lazy", "mason", "fzf" },
 			})
 		end,
 	},
