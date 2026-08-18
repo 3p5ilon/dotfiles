@@ -30,15 +30,18 @@ return {
 
 	-- Mason LSP Bridge: auto-installs + enables LSP servers
 	{
-		"mason-org/mason-lspconfig.nvim",
+		"neovim/nvim-lspconfig",
 		dependencies = {
 			"mason-org/mason.nvim",
-			"neovim/nvim-lspconfig",
+			"mason-org/mason-lspconfig.nvim",
+			"saghen/blink.cmp",
 		},
 		config = function()
 			-- Global capabilities via blink.cmp
+			local capabilities = require("blink.cmp").get_lsp_capabilities()
+
 			vim.lsp.config("*", {
-				capabilities = require("blink.cmp").get_lsp_capabilities(),
+				capabilities = capabilities,
 			})
 
 			-- Lua
@@ -71,8 +74,11 @@ return {
 			})
 
 			-- C/C++: utf-16 required by clangd
+			local clangd_capabilities = vim.deepcopy(capabilities)
+			clangd_capabilities.offsetEncoding = { "utf-16" }
+
 			vim.lsp.config("clangd", {
-				offset_encoding = "utf-16",
+				capabilities = clangd_capabilities,
 				cmd = {
 					"clangd",
 					"--background-index",
@@ -97,13 +103,13 @@ return {
 			-- Markdown
 			vim.lsp.config("marksman", {})
 
-			-- Rust: rust-analyzer handles everything (format, lint, LSP)
+			-- Rust: rust-analyzer handles formatting & linting
 			vim.lsp.config("rust_analyzer", {
 				settings = {
 					["rust-analyzer"] = {
 						checkOnSave = true,
 						check = {
-							command = "clippy", -- use clippy for linting
+							command = "clippy",
 						},
 						cargo = { allFeatures = true },
 					},
@@ -140,20 +146,50 @@ return {
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("user_lsp", { clear = true }),
 				callback = function(args)
-					local opts = { buffer = args.buf, silent = true }
-					vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-					vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-					vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-					vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-					vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-					vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-					vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+					local opts = function(desc)
+						return { buffer = args.buf, silent = true, desc = desc }
+					end
+
+					-- Navigation
+					vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Go to definition"))
+					vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts("Go to declaration"))
+					vim.keymap.set("n", "gI", vim.lsp.buf.implementation, opts("Go to implementation"))
+					vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, opts("Go to type definition"))
+					vim.keymap.set("n", "gr", vim.lsp.buf.references, opts("Show references"))
+					vim.keymap.set("n", "K", vim.lsp.buf.hover, opts("Hover documentation"))
+					vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, opts("Signature help"))
+					vim.keymap.set("n", "<leader>cs", vim.lsp.buf.workspace_symbol, opts("Workspace symbols"))
+
+					-- Code operations
+					vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts("Code actions"))
+					vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, opts("Rename symbol (LSP)"))
+					vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, opts("Line diagnostics"))
+					vim.keymap.set("n", "<leader>cf", function()
+						vim.lsp.buf.format({ async = true })
+					end, opts("Format buffer"))
+
+					-- Diagnostics Navigation
+					vim.keymap.set("n", "[d", function()
+						vim.diagnostic.jump({ count = -1 })
+					end, opts("Previous diagnostic"))
+					vim.keymap.set("n", "]d", function()
+						vim.diagnostic.jump({ count = 1 })
+					end, opts("Next diagnostic"))
+					vim.keymap.set("n", "[e", function()
+						vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR })
+					end, opts("Previous error"))
+					vim.keymap.set("n", "]e", function()
+						vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR })
+					end, opts("Next error"))
 				end,
 			})
 
 			-- Diagnostics
 			vim.diagnostic.config({
-				virtual_text = true,
+				virtual_text = {
+					spacing = 4,
+					prefix = "●",
+				},
 				signs = {
 					text = {
 						[vim.diagnostic.severity.ERROR] = " ",
@@ -165,13 +201,10 @@ return {
 				underline = true,
 				update_in_insert = false,
 				severity_sort = true,
-			})
-
-			-- Float diagnostic on cursor hold
-			vim.api.nvim_create_autocmd("CursorHold", {
-				callback = function()
-					vim.diagnostic.open_float(nil, { focusable = false })
-				end,
+				float = {
+					border = "rounded",
+					source = "always",
+				},
 			})
 		end,
 	},
