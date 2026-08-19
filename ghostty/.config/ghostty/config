@@ -4,4 +4,10 @@ font-family = "JetBrainsMono Nerd Font"
 background-opacity = 0.95
 gtk-titlebar = false
 
+# Layout & Grid Mechanics
+window-padding-x = 2
+window-padding-y = 2
+window-padding-balance = true
+window-inherit-working-directory = true
+
 custom-shader = ~/.config/ghostty/shaders/cursor.glsl
