@@ -1,79 +1,62 @@
-# Include Catppuccin Delta themes
 [include]
-	path = ~/.config/delta/themes/catppuccin.gitconfig
+    path = ~/.config/delta/themes/catppuccin.gitconfig
 
 [user]
-	name = epsilon
-	email = jiraiyahiddenleaf27@gmail.com
-
-[github]
-	user = 3p5ilon
+    name = epsilon
+    email = jiraiyahiddenleaf27@gmail.com
 
 [core]
-	editor = nvim
-	pager = delta
-	excludesfile = ~/.gitignore_global
-	autocrlf = input
-	whitespace = trailing-space,space-before-tab
+    editor = nvim
+    pager = delta
+    excludesfile = ~/.gitignore_global
+    autocrlf = input
 
 [init]
-	defaultBranch = main
-
-[interactive]
-	diffFilter = delta --color-only
+    defaultBranch = main
 
 [delta]
-	features = catppuccin-mocha
-	navigate = true
-	line-numbers = true
-	; side-by-side = true
+    features = catppuccin-mocha
+    navigate = true
+    line-numbers = true
 
 [diff]
-	algorithm = histogram
-	colorMoved = default
+    algorithm = histogram
+    colorMoved = default
 
 [merge]
-	conflictstyle = zdiff3
+    conflictstyle = zdiff3
 
 [fetch]
-	prune = true
-
-[push]
-	autoSetupRemote = true
+    prune = true
 
 [pull]
-	rebase = true
+    rebase = true
+
+[push]
+    autoSetupRemote = true
 
 [rebase]
-	autoStash = true
+    autoStash = true
 
 [rerere]
-	enabled = true
+    enabled = true
 
 [commit]
-	verbose = true
+    verbose = true
 
 [help]
-	autocorrect = prompt
-
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+    autocorrect = prompt
 
 [alias]
-	st  = status -sb
-	sw  = switch
-	br  = branch
-	co  = checkout
-	c   = commit
-	ca  = commit --amend --no-edit
-	p   = push
-	pf  = push --force-with-lease
-	l   = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-	la  = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
-	uncommit = reset --soft HEAD^
-	unstage  = restore --staged
-[http]
-	postBuffer = 524288000
+    st = status -sb
+    sw = switch
+    br = branch
+    co = checkout
+    c = commit
+    ca = commit --amend --no-edit
+    p = push
+    pf = push --force-with-lease
+    uncommit = reset --soft HEAD^
+    unstage = restore --staged
+    l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    la = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all

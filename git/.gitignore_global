@@ -1,12 +1,10 @@
-# OS junk
+# OS
 .DS_Store
-.DS_Store?
 ._*
 Thumbs.db
-ehthumbs.db
 Desktop.ini
 
-# Editor files
+# Editors
 *.swp
 *.swo
 *~
@@ -18,16 +16,17 @@ Desktop.ini
 .zsh_history
 .bash_history
 
-# Temp files
-*.tmp
-*.log
-
-# Environment files
+# Environment
 .env
 .env.local
 .env.*.local
 
-# Cache
+# Dependencies
+node_modules/
+
+# Python
 __pycache__/
-*.pyc
-.npm/
+*.py[cod]
+
+# Temporary files
+*.tmp
