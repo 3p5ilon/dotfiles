@@ -26,11 +26,15 @@ return {
 			-- Dashboard Buttons
 			dashboard.section.buttons.val = {
 				dashboard.button("n", "  New file", ":ene <BAR> startinsert<CR>"),
-				dashboard.button("f", "󰈞  Find file", "<cmd>FzfLua files<CR>"),
-				dashboard.button("r", "  Recent files", "<cmd>FzfLua oldfiles<CR>"),
-				dashboard.button("g", "󰍉  Live grep", "<cmd>FzfLua live_grep<CR>"),
+				dashboard.button("f", "󰈞  Find file", "<cmd>lua require('fff').find_files()<CR>"),
+				dashboard.button("r", "  Recent files", "<cmd>lua require('fff').find_files()<CR>"),
+				dashboard.button("g", "󰍉  Live grep", "<cmd>lua require('fff').live_grep()<CR>"),
 				dashboard.button("s", "󰋚  Restore session", "<cmd>lua require('persistence').load()<CR>"),
-				dashboard.button("c", "  Config", "<cmd>FzfLua files cwd=~/.config/nvim/<CR>"),
+				dashboard.button(
+					"c",
+					"  Config",
+					"<cmd>lua require('fff').find_files_in_dir(vim.fn.stdpath('config'))<CR>"
+				),
 				dashboard.button("q", "  Quit", ":qa<CR>"),
 			}
 			dashboard.section.buttons.opts.hl = "Keyword"
