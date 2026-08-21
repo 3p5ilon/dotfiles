@@ -1,12 +1,11 @@
 return {
 	{
-		"epwalsh/obsidian.nvim",
+		"obsidian-nvim/obsidian.nvim",
 		version = "*",
-		lazy = false,
-
+		ft = "markdown",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"hrsh7th/nvim-cmp",
+			"saghen/blink.cmp",
 		},
 
 		opts = {
@@ -29,7 +28,7 @@ return {
 			},
 
 			completion = {
-				nvim_cmp = true,
+				blink = true,
 				min_chars = 2,
 			},
 		},
