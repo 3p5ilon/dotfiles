@@ -50,7 +50,7 @@ return {
 					component_separators = s.component,
 					section_separators = s.section,
 					disabled_filetypes = {
-						statusline = { "dashboard", "alpha" },
+						statusline = { "lazy", "alpha", "starter", "lazygit" },
 					},
 				},
 
