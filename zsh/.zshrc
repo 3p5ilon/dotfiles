@@ -62,7 +62,7 @@ alias man="tldr"   # better man
 # eza - better ls
 alias ls="eza --icons --group-directories-first"
 alias la="eza -a --icons --group-directories-first"
-alias lt="eza --tree --icons"
+alias lt="eza -a --icons --git --tree"
 alias l='eza -l --group-directories-first --icons'
 alias ll="eza -la --icons --git --group-directories-first"
 
